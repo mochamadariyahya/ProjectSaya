@@ -6,6 +6,12 @@
   <title>Project OneAri</title>
 
   <style>
+    .raja{
+      color: BlueViolet;
+    }
+    .gadai{
+      color: Chartreuse;
+    }
     body {
       color: black;
       font-family: Arial, sans-serif;
@@ -70,12 +76,13 @@
 <body>
 
   <div class="container">
-    <h1>RG Cibarusah Kota</h1>
+    <h1><span id="raja">R</span>
+      <span id="gadai">G</span> Cibarusah Kota</h1>
     <label>Masukkan nilai pinjaman</label>
     <input id="inputValue" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
 
     <div class="row">
-      <button style="margin-right:50px;"onclick="resetInput()">Reset</button>
+      <button onclick="resetInput()">Reset</button>
       <button onclick="add000()">+000</button>
     </div>
 
