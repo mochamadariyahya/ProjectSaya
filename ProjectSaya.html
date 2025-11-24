@@ -106,6 +106,10 @@
   </div>
 
   <script>
+    document.getElementById("inputValue").addEventListener("input", function () {
+  this.value = this.value.replace(/[^0-9]/g, "");
+});
+    
     function formatRupiah(angka) {
       return new Intl.NumberFormat("id-ID", {
         style: "currency",
