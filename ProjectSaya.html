@@ -73,7 +73,7 @@
     <h1>RG Cibarusah Kota</h1>
 
     <label>Masukkan nilai pinjaman</label>
-    <input id="inputValue" class="value" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
+    <input id="inputValue" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
 
     <div class="row">
       <button onclick="resetInput()">Reset</button>
@@ -103,6 +103,11 @@
       <div class="value" id="plus10">Rp0</div>
     </div>
 
+    <div class="box">
+      <div class="label">Pinjaman</div>
+      <div class="value" id="ppa">Rp0</div>
+    </div>
+
     <footer>by.mochamadariyahya</footer>
   </div>
 
@@ -125,7 +130,7 @@
 
       let value = parseInt(raw);
 
-      document.getElementById("inputValue").textContent = formatRupiah;
+      document.getElementById("ppa").textContent = formatRupiah(Math.round(value)):
       document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
       document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
       document.getElementById("p11").textContent = formatRupiah(Math.round(value * 0.11));
