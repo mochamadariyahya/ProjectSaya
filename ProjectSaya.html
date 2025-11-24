@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project AriOne</title>
+  <title>Project OneAri</title>
 
   <style>
     body {
-      Background-color: green;
       font-family: Arial, sans-serif;
-      background: #f3f4f6;
+      background: green;
       padding: 20px;
     }
     .container {
@@ -80,12 +79,6 @@
       <button onclick="add000()">+000</button>
     </div>
 
-    <!-- BOX NILAI AWAL -->
-    <div class="box">
-      <div class="label">Nilai Awal</div>
-      <div class="value" id="originalValue">Rp0</div>
-    </div>
-
     <div class="box">
       <div class="label">Diskon Tarif 50% (5%)</div>
       <div class="value" id="p5">Rp0</div>
@@ -121,22 +114,30 @@
       }).format(angka);
     }
 
-    function formatDisplayNumber(numStr) {
-      return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    function updateValue() {
+      let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      if (raw === "") raw = "0";
+
+      let value = parseInt(raw);
+
+      document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
+      document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
+      document.getElementById("p11").textContent = formatRupiah(Math.round(value * 0.11));
+      document.getElementById("p16").textContent = formatRupiah(Math.round(value * 0.16));
+      document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
     }
 
-    function updateValue() {
-      let inp = document.getId("inputValue").value = "";
+    function resetInput() {
+      document.getElementById("inputValue").value = "";
       updateValue();
     }
 
     function add000() {
       let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-      document.getElementById("inputValue").value = formatDisplayNumber(v + "000");
+      document.getElementById("inputValue").value = v + "000";
       updateValue();
     }
   </script>
 
 </body>
-  </html>
-  
+</html>
