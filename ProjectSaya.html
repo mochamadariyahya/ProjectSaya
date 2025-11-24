@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project Ari</title>
+  <title>Project AriOne</title>
 
   <style>
     body {
+      Background-color: green;
       font-family: Arial, sans-serif;
       background: #f3f4f6;
       padding: 20px;
     }
     .container {
-      color: green;
       max-width: 480px;
       margin: auto;
       background: #fff;
@@ -73,11 +73,17 @@
     <h1>RG Cibarusah Kota</h1>
 
     <label>Masukkan nilai pinjaman</label>
-    <input id="inputValue" class="value" type="text" placeholder="0" oninput="updateValue()" />
+    <input id="inputValue" type="text" placeholder="0" oninput="updateValue()" />
 
     <div class="row">
       <button onclick="resetInput()">Reset</button>
       <button onclick="add000()">+000</button>
+    </div>
+
+    <!-- BOX NILAI AWAL -->
+    <div class="box">
+      <div class="label">Nilai Awal</div>
+      <div class="value" id="originalValue">Rp0</div>
     </div>
 
     <div class="box">
@@ -106,58 +112,31 @@
     <footer>by.mochamadariyahya</footer>
   </div>
 
-<script>
-  function formatRupiahDisplay(angka) {
-    return angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
+  <script>
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(angka);
+    }
 
-  function formatRupiah(angka) {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0
-    }).format(angka);
-  }
+    function formatDisplayNumber(numStr) {
+      return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
-  function updateValue() {
-    let inp = document.getElementById("inputValue");
+    function updateValue() {
+      let inp = document.getId("inputValue").value = "";
+      updateValue();
+    }
 
-    // hilangkan semua karakter selain angka
-    let raw = inp.value.replace(/[^0-9]/g, "");
-    if (raw === "") raw = "0";
-
-    // tampilkan kembali ke input dengan format ribuan
-    inp.value = formatRupiahDisplay(raw);
-
-    let value = parseInt(raw);
-
-    // perhitungan
-    document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
-    document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
-    document.getElementById("p11").textContent = formatRupiah(Math.round(value * 0.11));
-    document.getElementById("p16").textContent = formatRupiah(Math.round(value * 0.16));
-    document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
-  }
-
-  function resetInput() {
-    document.getElementById("inputValue").value = "";
-    updateValue();
-  }
-
-  function add000() {
-    let inp = document.getElementById("inputValue");
-
-    // ambil angka mentah tanpa titik
-    let raw = inp.value.replace(/[^0-9]/g, "");
-    raw += "000";
-
-    // tampilkan dengan titik
-    inp.value = formatRupiahDisplay(raw);
-
-    updateValue();
-  }
-</script>
-
+    function add000() {
+      let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      document.getElementById("inputValue").value = formatDisplayNumber(v + "000");
+      updateValue();
+    }
+  </script>
 
 </body>
-</html>
+  </html>
+  
