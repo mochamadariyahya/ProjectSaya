@@ -130,7 +130,7 @@
 
       let value = parseInt(raw);
 
-      document.getElementById("ppa").textContent = formatRupiah(Math.round(value)):
+      document.getElementById("ppa").textContent = formatRupiah(value);
       document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
       document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
       document.getElementById("p11").textContent = formatRupiah(Math.round(value * 0.11));
