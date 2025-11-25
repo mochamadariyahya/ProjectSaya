@@ -117,10 +117,19 @@
         Total: <span id="grandTotal">Rp 0</span>
     </div>
 
-    <button onclick="return confirm('Yakin Ek Dihapus?') resetAll()" class="btn-reset">Reset</button>
+    <button onclick="return confirmReset()" class="btn-reset">Reset</button>
+
 </div>
 
 <script>
+    //konfirmasi tombol reset 
+    function confirmReset() {
+    if (confirm('Yakin Ek Dihapus?')) {
+        resetAll();
+    }
+    return false;
+    }
+    
     // Daftar pecahan
     const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
 
