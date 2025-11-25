@@ -15,16 +15,22 @@
     .container {
         background: #ffffff;
         padding: 15px;
-        max-width: 400px;
+        max-width: 430px;
         margin: auto;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         border-radius: 12px;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 15px;
-        font-size: 22px;
+        margin-bottom: 20px;
+        font-size: 24px;
         color: #333;
     }
 
@@ -34,18 +40,46 @@
         align-items: center;
         background: #f9fafc;
         padding: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         border-radius: 10px;
         border: 1px solid #e2e6ea;
+        transition: 0.25s;
+    }
+
+    .row:hover {
+        background: #eef2f6;
+        transform: scale(1.02);
+    }
+
+    .money-img {
+        width: 55px;
+        height: auto;
+        border-radius: 6px;
+        margin-right: 10px;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 50%;
     }
 
     .row input {
-        width: 60px;
+        width: 65px;
         padding: 6px;
         border-radius: 8px;
         border: 1px solid #ccc;
         text-align: center;
         font-size: 16px;
+        transition: 0.2s;
+    }
+
+    /* Animasi input saat mengetik */
+    .row input:focus {
+        border-color: #2b8df0;
+        box-shadow: 0 0 6px rgba(45, 123, 255, 0.6);
+        transform: scale(1.05);
     }
 
     .total {
@@ -74,19 +108,10 @@
     }
 
     @media (max-width: 480px) {
-        .row {
-            padding: 8px;
-        }
-        .row span {
-            font-size: 14px;
-        }
-        .row input {
-            width: 55px;
-            font-size: 15px;
-        }
-        .total {
-            font-size: 20px;
-        }
+        .row { padding: 8px; }
+        .row input { width: 55px; }
+        .money-img { width: 45px; }
+        .total { font-size: 19px; }
     }
 </style>
 </head>
@@ -105,27 +130,40 @@
 </div>
 
 <script>
-    const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
+    // Pecahan + gambar uang
+    const denominations = [
+        { value: 100000, img: "https://i.imgur.com/GPv7n5m.png" },
+        { value: 50000, img: "https://i.imgur.com/PQctayq.png" },
+        { value: 20000, img: "https://i.imgur.com/SU2mG6d.png" },
+        { value: 10000, img: "https://i.imgur.com/zf3zvVQ.png" },
+        { value: 5000, img: "https://i.imgur.com/7ZjDMPv.png" },
+        { value: 1000, img: "https://i.imgur.com/HT4mp7P.png" },
+        { value: 500, img: "https://i.imgur.com/XEs19Fh.png" }
+    ];
 
     const container = document.getElementById("inputs");
 
-    // Format tanpa koma / tanpa ,00
     function formatRupiah(amount) {
         return "Rp " + amount.toLocaleString("id-ID");
     }
 
-    denominations.forEach(value => {
+    // Generate kotak input + gambar uang
+    denominations.forEach(item => {
         const row = document.createElement("div");
         row.className = "row";
 
         row.innerHTML = `
-            <span>Rp ${value.toLocaleString("id-ID")}</span>
+            <div class="left">
+                <img src="${item.img}" class="money-img">
+                <span>Rp ${item.value.toLocaleString("id-ID")}</span>
+            </div>
+
             <input type="number" 
-                   id="qty-${value}" 
+                   id="qty-${item.value}" 
                    placeholder="0"
                    min="0"
-                   oninput="this.value = this.value.replace(/^0+/, '')">
-            <span id="total-${value}">Rp 0</span>
+                   oninput="this.value=this.value.replace(/^0+/, '')">
+            <span id="total-${item.value}">Rp 0</span>
         `;
 
         container.appendChild(row);
@@ -134,12 +172,12 @@
     function calculate() {
         let grandTotal = 0;
 
-        denominations.forEach(value => {
-            const raw = document.getElementById(`qty-${value}`).value;
+        denominations.forEach(item => {
+            const raw = document.getElementById(`qty-${item.value}`).value;
             const qty = parseInt(raw) || 0;
 
-            const total = qty * value;
-            document.getElementById(`total-${value}`).textContent = formatRupiah(total);
+            const total = qty * item.value;
+            document.getElementById(`total-${item.value}`).textContent = formatRupiah(total);
 
             grandTotal += total;
         });
@@ -148,10 +186,10 @@
     }
 
     function resetAll() {
-        denominations.forEach(value => {
-            const input = document.getElementById(`qty-${value}`);
+        denominations.forEach(item => {
+            const input = document.getElementById(`qty-${item.value}`);
             input.value = "";
-            document.getElementById(`total-${value}`).textContent = "Rp 0";
+            document.getElementById(`total-${item.value}`).textContent = "Rp 0";
         });
 
         document.getElementById("grandTotal").textContent = "Rp 0";
