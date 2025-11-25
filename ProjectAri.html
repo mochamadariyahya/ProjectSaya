@@ -1,220 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A-ProjectONE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Pinjaman Modern</title>
 
-  <style>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
     body {
-      color: black;
-      font-family: Arial, sans-serif;
-      background: #fff;
-      padding: 20px;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fb;
     }
+
     .container {
-      max-width: 480px;
-      margin: auto;
-      background: #fff;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        max-width: 420px;
+        margin: 25px auto;
+        padding: 20px;
     }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 16px;
-      font-weight: bold;
+
+    h2 {
+        text-align: center;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #333;
     }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
+
+    .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+        margin-bottom: 18px;
     }
-    .row {
-      display: flex;
-      gap: 8px;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 14px;
-      border: none;
-      background: #e5e7eb;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .box {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-    }
+
     .label {
-      font-size: 12px;
-      color: gray;
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 6px;
+        font-weight: 500;
     }
-    .value {
-      font-size: 20px;
-      margin-top: 6px;
-      font-weight: bold;
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+        outline: none;
+        transition: .2s;
+        background: #fafafa;
     }
+
+    input:focus, select:focus {
+        border-color: #4a8df3;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(74, 141, 243, 0.15);
+    }
+
+    .result-box {
+        background: #f8f9ff;
+        padding: 14px;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 1px solid #e6eaff;
+    }
+
+    .result-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 6px 0;
+        font-size: 0.95rem;
+        color: #333;
+    }
+
+    .result-total {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 5px;
+        color: #000;
+    }
+
     footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #333;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #999;
+        padding-bottom: 30px;
     }
-  </style>
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>
-      <span style="color:Chartreuse;">R</span><span style="color:BlueViolet;">G</span> Cibarusah Kota
-    </h1>
+<div class="container">
+    <h2>Kalkulator Pinjaman</h2>
 
-    <label>Input Nilai Pinjaman</label>
-    <input id="inputValue" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
+    <div class="card">
+        <div class="label">Nominal Pinjaman</div>
+        <input type="number" id="nominal" placeholder="Masukkan nominal" oninput="update()">
 
-    <label style="margin-top:12px; display:block;">Pilih Biaya Admin</label>
-    <select id="adminSelect" onchange="updateValue()">
-      <option value="1">Admin 1%</option>
-      <option value="2">Admin 2%</option>
-      <option value="3">Admin 3%</option>
-      <option value="25000">Admin Rp 25.000</option>
-      <option value="5">Admin 5%</option>
-    </select>
+        <div class="label" style="margin-top:15px;">Biaya Admin</div>
+        <select id="admin" onchange="update()">
+            <option value="1">Admin 1% (dibulatkan per 1jt)</option>
+            <option value="2">Admin 2%</option>
+            <option value="3">Admin 3%</option>
+            <option value="5">Admin 5%</option>
+            <option value="25000">Admin Rp25.000</option>
+        </select>
 
-    <div class="row">
-      <button onclick="resetInput()">Reset</button>
-      <button onclick="add000()">+000</button>
+        <div class="result-box">
+            <div class="result-row"><span>Biaya Admin</span><span id="rAdmin">Rp0</span></div>
+            <div class="result-row"><span>Asuransi</span><span>Rp10.000</span></div>
+            <div class="result-row"><span>Tarif 10%</span><span id="rTarif10">Rp0</span></div>
+            <div class="result-row result-total"><span>Total Akhir</span><span id="rTotal">Rp0</span></div>
+        </div>
     </div>
 
-    <div class="box">
-      <div class="label">Jumlah Pinjaman</div>
-      <div class="value" id="ppa">Rp0</div>
-    </div>
+    <footer>© 2025 Modern Calculator</footer>
+</div>
 
-    <div class="box">
-      <div class="label">Diskon Tarif 50%</div>
-      <div class="value" id="p5">Rp0</div>
+<script>
+function formatRupiah(angka) {
+    return "Rp" + angka.toLocaleString("id-ID");
+}
 
-      <div class="label" style="margin-top:10px;">Total Setelah Diskon</div>
-      <div class="value" id="minus5">Rp0</div>
-    </div>
+function update() {
+    let nominal = parseInt(document.getElementById("nominal").value) || 0;
+    let adminOption = document.getElementById("admin").value;
 
-    <div class="box">
-      <div class="label">Perpanjang Normal (11%)</div>
-      <div class="value" id="p11">Rp0</div>
-    </div>
+    let admin = 0;
 
-    <div class="box">
-      <div class="label">Perpanjang Lewat Tempo (16%)</div>
-      <div class="value" id="p16">Rp0</div>
-    </div>
-
-    <div class="box">
-      <div class="label">Tebus Lewat Tempo (+10%)</div>
-      <div class="value" id="plus10">Rp0</div>
-    </div>
-
-    <!-- FIELD BARU (ADMIN, ASURANSI, TARIF 10%, TOTAL) -->
-    <div class="box">
-      <div class="label">Biaya Admin</div>
-      <div class="value" id="biayaAdmin">Rp0</div>
-
-      <div class="label" style="margin-top:10px;">Asuransi (Rp10.000)</div>
-      <div class="value" id="asuransi">Rp10.000</div>
-
-      <div class="label" style="margin-top:10px;">Tarif 10% dari Nominal</div>
-      <div class="value" id="tarif10">Rp0</div>
-
-      <div class="label" style="margin-top:10px;">Total Setelah Pengurangan</div>
-      <div class="value" id="totalAkhir">Rp0</div>
-    </div>
-
-    <footer>by.mochamadariyahya</footer>
-  </div>
-
-  <script>
-    document.getElementById("inputValue").addEventListener("input", function () {
-      this.value = this.value.replace(/[^0-9]/g, "");
-    });
-
-    function formatRupiah(angka) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0
-      }).format(angka);
+    // Admin 1% per juta, dibulatkan ke atas
+    if (adminOption === "1") {
+        let juta = Math.ceil(nominal / 1000000);
+        admin = juta * 10000;
+    }
+    // Admin fix 25k
+    else if (adminOption === "25000") {
+        admin = 25000;
+    }
+    // Admin persentase normal
+    else {
+        admin = Math.round(nominal * (parseInt(adminOption) / 100));
     }
 
-    function updateValue() {
-      let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-      if (raw === "") raw = "0";
+    // Minimal admin = 10.000
+    admin = Math.max(admin, 10000);
 
-      let value = parseInt(raw);
-      let adminOption = document.getElementById("adminSelect").value;
+    // Tarif 10%
+    let tarif10 = Math.round(nominal * 0.10);
 
-      // Hitungan 1% minimal 5000 (untuk perpanjang)
-      let satuPersen = Math.max(Math.round(value * 0.01), 5000);
-      let p11 = Math.round(value * 0.10) + satuPersen;
-      let p16 = Math.round(value * 0.15) + satuPersen;
+    // Asuransi tetap 10.000
+    let asuransi = 10000;
 
-      // ========= FITUR ADMIN BARU =========
-      let adminCost = 0;
+    // Total akhir
+    let totalAkhir = nominal - admin - tarif10 - asuransi;
+    if (totalAkhir < 0) totalAkhir = 0;
 
-      if (adminOption === "25000") {
-        adminCost = 25000;
-      }
-      else if (adminOption === "1") {
-        // Admin 1% PER JUTA dibulatkan ke atas (10.000 per 1 juta)
-        let juta = Math.ceil(value / 1000000);
-        adminCost = juta * 10000;
-      }
-      else {
-        adminCost = Math.round(value * (parseInt(adminOption) / 100));
-      }
-
-      // Minimal admin = 10.000
-      adminCost = Math.max(adminCost, 10000);
-
-      // Asuransi
-      let asuransi = 10000;
-
-      // Tarif 10% dari nominal awal
-      let tarif10 = Math.round(value * 0.10);
-
-      // Total akhir setelah pengurangan
-      let totalAkhir = value - adminCost - asuransi - tarif10;
-
-      // Update Display
-      document.getElementById("ppa").textContent = formatRupiah(value);
-      document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
-      document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
-      document.getElementById("p11").textContent = formatRupiah(p11);
-      document.getElementById("p16").textContent = formatRupiah(p16);
-      document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
-
-      // Update admin feature
-      document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
-      document.getElementById("asuransi").textContent = formatRupiah(asuransi);
-      document.getElementById("tarif10").textContent = formatRupiah(tarif10);
-      document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
-    }
-
-    function resetInput() {
-      document.getElementById("inputValue").value = "";
-      updateValue();
-    }
-
-    function add000() {
-      let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-      document.getElementById("inputValue").value = v + "000";
-      updateValue();
-    }
-  </script>
+    document.getElementById("rAdmin").textContent = formatRupiah(admin);
+    document.getElementById("rTarif10").textContent = formatRupiah(tarif10);
+    document.getElementById("rTotal").textContent = formatRupiah(totalAkhir);
+}
+</script>
 
 </body>
 </html>
