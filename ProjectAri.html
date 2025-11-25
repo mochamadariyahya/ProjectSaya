@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Pinjaman Modern</title>
+<title>Kalkulator</title>
 
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
     }
 
     .label {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #666;
         margin-bottom: 6px;
         font-weight: 500;
@@ -47,10 +47,10 @@
 
     input, select {
         width: 100%;
-        padding: 12px;
+        padding: 10px;
         border-radius: 10px;
         border: 1px solid #ddd;
-        font-size: 1rem;
+        font-size: 0.95rem;
         outline: none;
         transition: .2s;
         background: #fafafa;
@@ -62,6 +62,13 @@
         box-shadow: 0 0 0 3px rgba(74, 141, 243, 0.15);
     }
 
+    /* GRID SYSTEM 2 KOLOM */
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
     .result-box {
         background: #f8f9ff;
         padding: 14px;
@@ -70,19 +77,31 @@
         border: 1px solid #e6eaff;
     }
 
-    .result-row {
-        display: flex;
-        justify-content: space-between;
-        margin: 6px 0;
-        font-size: 0.95rem;
-        color: #333;
+    .result-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
     }
 
-    .result-total {
-        font-weight: 700;
+    .result-label {
+        font-size: 0.85rem;
+        color: #555;
+    }
+
+    .result-value {
+        text-align: right;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .total-row {
+        grid-column: span 2;
+        margin-top: 10px;
         font-size: 1.1rem;
-        margin-top: 5px;
-        color: #000;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-between;
+        color: #111;
     }
 
     footer {
@@ -100,24 +119,45 @@
     <h2>Kalkulator Pinjaman</h2>
 
     <div class="card">
-        <div class="label">Nominal Pinjaman</div>
-        <input type="number" id="nominal" placeholder="Masukkan nominal" oninput="update()">
 
-        <div class="label" style="margin-top:15px;">Biaya Admin</div>
-        <select id="admin" onchange="update()">
-            <option value="1">Admin 1% (dibulatkan per 1jt)</option>
-            <option value="2">Admin 2%</option>
-            <option value="3">Admin 3%</option>
-            <option value="5">Admin 5%</option>
-            <option value="25000">Admin Rp25.000</option>
-        </select>
+        <!-- GRID FORM INPUT -->
+        <div class="grid">
+            <div>
+                <div class="label">Nominal</div>
+                <input type="number" id="nominal" placeholder="Nominal" oninput="update()">
+            </div>
 
-        <div class="result-box">
-            <div class="result-row"><span>Biaya Admin</span><span id="rAdmin">Rp0</span></div>
-            <div class="result-row"><span>Asuransi</span><span>Rp10.000</span></div>
-            <div class="result-row"><span>Tarif 10%</span><span id="rTarif10">Rp0</span></div>
-            <div class="result-row result-total"><span>Total Akhir</span><span id="rTotal">Rp0</span></div>
+            <div>
+                <div class="label">Admin</div>
+                <select id="admin" onchange="update()">
+                    <option value="1">1% (per 1 juta)</option>
+                    <option value="2">2%</option>
+                    <option value="3">3%</option>
+                    <option value="5">5%</option>
+                    <option value="25000">Rp25.000</option>
+                </select>
+            </div>
         </div>
+
+        <!-- GRID RESULT -->
+        <div class="result-box">
+            <div class="result-grid">
+                <div class="result-label">Biaya Admin</div>
+                <div class="result-value" id="rAdmin">Rp0</div>
+
+                <div class="result-label">Asuransi</div>
+                <div class="result-value">Rp10.000</div>
+
+                <div class="result-label">Tarif 10%</div>
+                <div class="result-value" id="rTarif10">Rp0</div>
+            </div>
+
+            <div class="total-row">
+                <span>Total Akhir</span>
+                <span id="rTotal">Rp0</span>
+            </div>
+        </div>
+
     </div>
 
     <footer>© 2025 Modern Calculator</footer>
@@ -143,18 +183,18 @@ function update() {
     else if (adminOption === "25000") {
         admin = 25000;
     }
-    // Admin persentase normal
+    // Admin persentase biasa
     else {
         admin = Math.round(nominal * (parseInt(adminOption) / 100));
     }
 
-    // Minimal admin = 10.000
+    // Minimal admin
     admin = Math.max(admin, 10000);
 
     // Tarif 10%
     let tarif10 = Math.round(nominal * 0.10);
 
-    // Asuransi tetap 10.000
+    // Asuransi
     let asuransi = 10000;
 
     // Total akhir
