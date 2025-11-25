@@ -111,10 +111,9 @@
     const container = document.getElementById("inputs");
 
     function formatRupiah(amount) {
-        return amount.toLocaleString("id-ID", {
-            style: "currency",
-            currency: "IDR"
-        });
+    return "Rp " + amount.toLocaleString("id-ID");
+}
+);
     }
 
     // Generate input tanpa angka default (kosong)
