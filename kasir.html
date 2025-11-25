@@ -73,7 +73,6 @@
         background: #d62839;
     }
 
-    /* Agar lebih nyaman di HP */
     @media (max-width: 480px) {
         .row {
             padding: 8px;
@@ -110,13 +109,11 @@
 
     const container = document.getElementById("inputs");
 
+    // Format tanpa koma / tanpa ,00
     function formatRupiah(amount) {
-    return "Rp " + amount.toLocaleString("id-ID");
-}
-);
+        return "Rp " + amount.toLocaleString("id-ID");
     }
 
-    // Generate input tanpa angka default (kosong)
     denominations.forEach(value => {
         const row = document.createElement("div");
         row.className = "row";
