@@ -7,72 +7,48 @@
 
   <style>
     body {
-      background: #f5f5f5;
+      color: black;
       font-family: Arial, sans-serif;
+      background: #fff;
       padding: 20px;
-      color: #222;
     }
     .container {
       max-width: 480px;
       margin: auto;
       background: #fff;
-      padding: 28px;
-      border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     h1 {
-      text-align: center;
-      font-size: 24px;
+      font-size: 22px;
+      margin-bottom: 16px;
       font-weight: bold;
-      margin-bottom: 20px;
-    }
-    .header-logo span:nth-child(1) { color: Chartreuse; }
-    .header-logo span:nth-child(2) { color: BlueViolet; }
-
-    label {
-      font-size: 14px;
-      color: #444;
-      display: block;
-      margin-bottom: 6px;
     }
     input, select {
       width: 100%;
       padding: 12px;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
-      margin-bottom: 14px;
     }
     .row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin: 10px 0;
     }
     button {
-      flex: 1;
-      padding: 10px;
+      padding: 10px 14px;
       border: none;
       background: #e5e7eb;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
-    }
-    button:hover {
-      background: #d4d4d8;
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin-top: 25px;
-      margin-bottom: 10px;
-      color: #333;
     }
     .box {
       border: 1px solid #ddd;
-      background: #fafafa;
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 14px;
-      margin-bottom: 12px;
+      margin-top: 12px;
     }
     .label {
       font-size: 12px;
@@ -82,28 +58,26 @@
       font-size: 20px;
       margin-top: 6px;
       font-weight: bold;
-      color: #222;
     }
     footer {
       text-align: center;
-      font-size: 13px;
-      margin-top: 25px;
-      color: #555;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-
-    <h1 class="header-logo">
-      <span>R</span><span>G</span> Cibarusah Kota
+    <h1>
+      <span style="color:Chartreuse;">R</span><span style="color:BlueViolet;">G</span> Cibarusah Kota
     </h1>
 
     <label>Input Nilai Pinjaman</label>
-    <input id="inputValue" placeholder="0" oninput="updateValue()" />
+    <input id="inputValue" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
 
-    <label>Pilih Biaya Admin</label>
+    <label style="margin-top:12px; display:block;">Pilih Biaya Admin</label>
     <select id="adminSelect" onchange="updateValue()">
       <option value="1">Admin 1%</option>
       <option value="2">Admin 2%</option>
@@ -117,9 +91,6 @@
       <button onclick="add000()">+000</button>
     </div>
 
-    <!-- PINJAMAN & DISKON -->
-    <div class="section-title">Ringkasan Pinjaman</div>
-
     <div class="box">
       <div class="label">Jumlah Pinjaman</div>
       <div class="value" id="ppa">Rp0</div>
@@ -132,9 +103,6 @@
       <div class="label" style="margin-top:10px;">Total Setelah Diskon</div>
       <div class="value" id="minus5">Rp0</div>
     </div>
-
-    <!-- PERPANJANG -->
-    <div class="section-title">Biaya Perpanjang</div>
 
     <div class="box">
       <div class="label">Perpanjang Normal (11%)</div>
@@ -151,9 +119,7 @@
       <div class="value" id="plus10">Rp0</div>
     </div>
 
-    <!-- ADMIN & TOTAL -->
-    <div class="section-title">Admin, Asuransi & Total</div>
-
+    <!-- FIELD BARU (ADMIN, ASURANSI, TARIF 10%, TOTAL) -->
     <div class="box">
       <div class="label">Biaya Admin</div>
       <div class="value" id="biayaAdmin">Rp0</div>
@@ -171,78 +137,84 @@
     <footer>by.mochamadariyahya</footer>
   </div>
 
+  <script>
+    document.getElementById("inputValue").addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
 
-<script>
-document.getElementById("inputValue").addEventListener("input", function () {
-  this.value = this.value.replace(/[^0-9]/g, "");
-});
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(angka);
+    }
 
-function formatRupiah(angka) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(angka);
-}
+    function updateValue() {
+      let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      if (raw === "") raw = "0";
 
-function updateValue() {
-  let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-  if (raw === "") raw = "0";
-  let value = parseInt(raw);
+      let value = parseInt(raw);
+      let adminOption = document.getElementById("adminSelect").value;
 
-  let adminOption = document.getElementById("adminSelect").value;
+      // Hitungan 1% minimal 5000 (untuk perpanjang)
+      let satuPersen = Math.max(Math.round(value * 0.01), 5000);
+      let p11 = Math.round(value * 0.10) + satuPersen;
+      let p16 = Math.round(value * 0.15) + satuPersen;
 
-  // Perpanjang 11% & 16% dengan minimal 1% = 5000
-  let satuPersen = Math.max(Math.round(value * 0.01), 5000);
-  let p11 = Math.round(value * 0.10) + satuPersen;
-  let p16 = Math.round(value * 0.15) + satuPersen;
+      // ========= FITUR ADMIN BARU =========
+      let adminCost = 0;
 
-  // ================= ADMIN =================
-  let adminCost = 0;
+      if (adminOption === "25000") {
+        adminCost = 25000;
+      }
+      else if (adminOption === "1") {
+        // Admin 1% PER JUTA dibulatkan ke atas (10.000 per 1 juta)
+        let juta = Math.ceil(value / 1000000);
+        adminCost = juta * 10000;
+      }
+      else {
+        adminCost = Math.round(value * (parseInt(adminOption) / 100));
+      }
 
-  if (adminOption === "25000") {
-    adminCost = 25000;
-  }
-  else if (adminOption === "1") {
-    // Admin 1% sistem per juta, 10.000 per juta
-    let juta = Math.ceil(value / 1000000);
-    adminCost = juta * 10000;
-  }
-  else {
-    adminCost = Math.round(value * (parseInt(adminOption) / 100));
-  }
+      // Minimal admin = 10.000
+      adminCost = Math.max(adminCost, 10000);
 
-  adminCost = Math.max(adminCost, 10000);
+      // Asuransi
+      let asuransi = 10000;
 
-  let asuransi = 10000;
-  let tarif10 = Math.round(value * 0.10);
-  let totalAkhir = value - adminCost - asuransi - tarif10;
+      // Tarif 10% dari nominal awal
+      let tarif10 = Math.round(value * 0.10);
 
-  // ================= DISPLAY =================
-  document.getElementById("ppa").textContent = formatRupiah(value);
-  document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
-  document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
-  document.getElementById("p11").textContent = formatRupiah(p11);
-  document.getElementById("p16").textContent = formatRupiah(p16);
-  document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
+      // Total akhir setelah pengurangan
+      let totalAkhir = value - adminCost - asuransi - tarif10;
 
-  document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
-  document.getElementById("asuransi").textContent = formatRupiah(asuransi);
-  document.getElementById("tarif10").textContent = formatRupiah(tarif10);
-  document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
-}
+      // Update Display
+      document.getElementById("ppa").textContent = formatRupiah(value);
+      document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
+      document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
+      document.getElementById("p11").textContent = formatRupiah(p11);
+      document.getElementById("p16").textContent = formatRupiah(p16);
+      document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
 
-function resetInput() {
-  document.getElementById("inputValue").value = "";
-  updateValue();
-}
+      // Update admin feature
+      document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
+      document.getElementById("asuransi").textContent = formatRupiah(asuransi);
+      document.getElementById("tarif10").textContent = formatRupiah(tarif10);
+      document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
+    }
 
-function add000() {
-  let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-  document.getElementById("inputValue").value = v + "000";
-  updateValue();
-}
-</script>
+    function resetInput() {
+      document.getElementById("inputValue").value = "";
+      updateValue();
+    }
+
+    function add000() {
+      let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      document.getElementById("inputValue").value = v + "000";
+      updateValue();
+    }
+  </script>
 
 </body>
 </html>
