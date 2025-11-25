@@ -5,59 +5,115 @@
 <title>Kalkulator Kasir</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        max-width: 500px;
-        margin: 20px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f2f4f7;
+        display: flex;
+        justify-content: center;
+        padding: 30px;
     }
+
+    .container {
+        background: #ffffff;
+        padding: 25px;
+        width: 430px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 15px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
     .row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        background: #f9fafc;
+        padding: 10px 15px;
         margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid #e2e6ea;
     }
+
     .row input {
-        width: 80px;
+        width: 70px;
+        padding: 6px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
         text-align: center;
+        font-size: 16px;
     }
+
+    .row span {
+        font-size: 16px;
+        color: #333;
+    }
+
     .total {
         font-weight: bold;
-        font-size: 18px;
-        text-align: right;
+        font-size: 22px;
         margin-top: 20px;
+        text-align: right;
+        color: #2c7a7b;
+    }
+
+    .btn-reset {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        font-size: 16px;
+        background: #e63946;
+        border: none;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-reset:hover {
+        background: #d62839;
     }
 </style>
 </head>
 <body>
 
-<h2>Kalkulator Kasir</h2>
+<div class="container">
+    <h2>Kalkulator Kasir</h2>
 
-<div id="container"></div>
+    <div id="inputs"></div>
 
-<div class="total">
-    Total: <span id="grandTotal">Rp 0</span>
+    <div class="total">
+        Total: <span id="grandTotal">Rp 0</span>
+    </div>
+
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
 </div>
 
 <script>
-    const denominations = [
-        100000, 50000, 20000, 10000, 5000, 1000, 500
-    ];
+    const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
 
-    const container = document.getElementById("container");
+    const container = document.getElementById("inputs");
 
     function formatRupiah(amount) {
-        return amount.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
+        return amount.toLocaleString("id-ID", {
+            style: "currency",
+            currency: "IDR"
+        });
     }
 
     denominations.forEach(value => {
         const row = document.createElement("div");
         row.className = "row";
+
         row.innerHTML = `
             <span>Rp ${value.toLocaleString("id-ID")}</span>
             <input type="number" id="qty-${value}" value="0" min="0">
             <span id="total-${value}">Rp 0</span>
         `;
+
         container.appendChild(row);
     });
 
@@ -67,11 +123,22 @@
         denominations.forEach(value => {
             const qty = parseInt(document.getElementById(`qty-${value}`).value) || 0;
             const total = qty * value;
+
             document.getElementById(`total-${value}`).textContent = formatRupiah(total);
+
             grandTotal += total;
         });
 
         document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
+    }
+
+    function resetAll() {
+        denominations.forEach(value => {
+            document.getElementById(`qty-${value}`).value = 0;
+            document.getElementById(`total-${value}`).textContent = "Rp 0";
+        });
+
+        document.getElementById("grandTotal").textContent = "Rp 0";
     }
 
     container.addEventListener("input", calculate);
