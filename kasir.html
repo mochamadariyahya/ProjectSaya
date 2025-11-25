@@ -2,28 +2,29 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kalkulator Kasir</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Kasir Mobile</title>
 <style>
     body {
         font-family: "Segoe UI", Arial, sans-serif;
         background: #f2f4f7;
-        display: flex;
-        justify-content: center;
-        padding: 30px;
+        padding: 10px;
+        margin: 0;
     }
 
     .container {
         background: #ffffff;
-        padding: 25px;
-        width: 430px;
+        padding: 15px;
+        max-width: 400px;
+        margin: auto;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border-radius: 15px;
+        border-radius: 12px;
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
+        margin-bottom: 15px;
+        font-size: 22px;
         color: #333;
     }
 
@@ -32,14 +33,14 @@
         justify-content: space-between;
         align-items: center;
         background: #f9fafc;
-        padding: 10px 15px;
+        padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
         border: 1px solid #e2e6ea;
     }
 
     .row input {
-        width: 70px;
+        width: 60px;
         padding: 6px;
         border-radius: 8px;
         border: 1px solid #ccc;
@@ -47,22 +48,17 @@
         font-size: 16px;
     }
 
-    .row span {
-        font-size: 16px;
-        color: #333;
-    }
-
     .total {
         font-weight: bold;
         font-size: 22px;
-        margin-top: 20px;
+        margin-top: 15px;
         text-align: right;
         color: #2c7a7b;
     }
 
     .btn-reset {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         margin-top: 20px;
         font-size: 16px;
         background: #e63946;
@@ -75,6 +71,23 @@
 
     .btn-reset:hover {
         background: #d62839;
+    }
+
+    /* Agar lebih nyaman di HP */
+    @media (max-width: 480px) {
+        .row {
+            padding: 8px;
+        }
+        .row span {
+            font-size: 14px;
+        }
+        .row input {
+            width: 55px;
+            font-size: 15px;
+        }
+        .total {
+            font-size: 20px;
+        }
     }
 </style>
 </head>
@@ -104,13 +117,18 @@
         });
     }
 
+    // Generate input tanpa angka default (kosong)
     denominations.forEach(value => {
         const row = document.createElement("div");
         row.className = "row";
 
         row.innerHTML = `
             <span>Rp ${value.toLocaleString("id-ID")}</span>
-            <input type="number" id="qty-${value}" value="0" min="0">
+            <input type="number" 
+                   id="qty-${value}" 
+                   placeholder="0"
+                   min="0"
+                   oninput="this.value = this.value.replace(/^0+/, '')">
             <span id="total-${value}">Rp 0</span>
         `;
 
@@ -121,9 +139,10 @@
         let grandTotal = 0;
 
         denominations.forEach(value => {
-            const qty = parseInt(document.getElementById(`qty-${value}`).value) || 0;
-            const total = qty * value;
+            const raw = document.getElementById(`qty-${value}`).value;
+            const qty = parseInt(raw) || 0;
 
+            const total = qty * value;
             document.getElementById(`total-${value}`).textContent = formatRupiah(total);
 
             grandTotal += total;
@@ -134,7 +153,8 @@
 
     function resetAll() {
         denominations.forEach(value => {
-            document.getElementById(`qty-${value}`).value = 0;
+            const input = document.getElementById(`qty-${value}`);
+            input.value = "";
             document.getElementById(`total-${value}`).textContent = "Rp 0";
         });
 
