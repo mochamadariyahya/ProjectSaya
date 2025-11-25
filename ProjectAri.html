@@ -170,13 +170,30 @@
     let p16 = Math.round(value * 0.15) + satuPersen;
 
     // ========= FITUR ADMIN BARU =========
-    let adminCost = 0;
+    // ========= FITUR ADMIN BARU =========
+let adminCost = 0;
 
-    if (adminOption === "25000") {
-      adminCost = 25000;
-    } else {
-      adminCost = Math.round(value * (parseInt(adminOption) / 100));
-    }
+if (adminOption === "25000") {
+    adminCost = 25000;
+}
+else if (adminOption === "1") {
+    // aturan khusus 1%
+    let juta = Math.ceil(value / 1000000);
+    adminCost = juta * 10000;
+}
+else {
+    adminCost = Math.round(value * (parseInt(adminOption) / 100));
+}
+
+// Minimal admin 10.000
+adminCost = Math.max(adminCost, 10000);
+    
+if (adminOption === "1") {
+    // Admin 1% per juta dibulatkan ke atas
+    let juta = Math.ceil(value / 1000000);
+    adminCost = juta * 10000;
+}
+    
 
     // Minimal admin 10.000
     adminCost = Math.max(adminCost, 10000);
