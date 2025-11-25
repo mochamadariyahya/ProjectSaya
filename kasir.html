@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kalkulator Kasir</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .row input {
+        width: 80px;
+        text-align: center;
+    }
+    .total {
+        font-weight: bold;
+        font-size: 18px;
+        text-align: right;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Kalkulator Kasir</h2>
+
+<div id="container"></div>
+
+<div class="total">
+    Total: <span id="grandTotal">Rp 0</span>
+</div>
+
+<script>
+    const denominations = [
+        100000, 50000, 20000, 10000, 5000, 1000, 500
+    ];
+
+    const container = document.getElementById("container");
+
+    function formatRupiah(amount) {
+        return amount.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
+    }
+
+    denominations.forEach(value => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `
+            <span>Rp ${value.toLocaleString("id-ID")}</span>
+            <input type="number" id="qty-${value}" value="0" min="0">
+            <span id="total-${value}">Rp 0</span>
+        `;
+        container.appendChild(row);
+    });
+
+    function calculate() {
+        let grandTotal = 0;
+
+        denominations.forEach(value => {
+            const qty = parseInt(document.getElementById(`qty-${value}`).value) || 0;
+            const total = qty * value;
+            document.getElementById(`total-${value}`).textContent = formatRupiah(total);
+            grandTotal += total;
+        });
+
+        document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
+    }
+
+    container.addEventListener("input", calculate);
+</script>
+
+</body>
+</html>
