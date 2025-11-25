@@ -2,22 +2,22 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kasir Profesional</title>
+<title>Kasir RG</title>
 
 <style>
     body {
         font-family: "Poppins", sans-serif;
         background: linear-gradient(135deg, #ffb6d5, #d8b8ff);
         margin: 0;
-        padding: 15px;
+        padding: 12px;
         color: #4a2b4f;
     }
 
     .container {
         background: white;
-        padding: 20px;
-        border-radius: 20px;
-        max-width: 450px;
+        padding: 18px;
+        border-radius: 18px;
+        max-width: 420px;
         margin: auto;
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
@@ -25,7 +25,7 @@
     h2 {
         text-align: center;
         margin-bottom: 20px;
-        font-size: 26px;
+        font-size: 24px;
         font-weight: bold;
         color: #7a2c6a;
     }
@@ -34,25 +34,25 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         padding: 10px;
         background: #ffe9f3;
-        border-radius: 10px;
+        border-radius: 12px;
         transition: .2s;
     }
 
     .row:focus-within {
         background: #ffd8ed;
-        transform: scale(1.02);
+        transform: scale(1.015);
     }
 
     .row input {
-        font-size: 20px;
-        width: 80px;
-        padding: 8px;
+        font-size: 22px;
+        width: 90px;
+        padding: 10px;
         text-align: center;
         border: 2px solid #d67ab2;
-        border-radius: 10px;
+        border-radius: 12px;
         outline: none;
     }
 
@@ -64,49 +64,9 @@
     .total-box {
         font-size: 22px;
         text-align: right;
-        margin-top: 25px;
+        margin-top: 22px;
         font-weight: bold;
         color: #6b0057;
-    }
-
-    /* Keypad */
-    .keypad {
-        display: none;
-        position: fixed;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: white;
-        padding: 15px;
-        border-radius: 20px;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        animation: slideUp .3s ease;
-        z-index: 999;
-    }
-
-    @keyframes slideUp {
-        from { transform: translate(-50%, 60px); opacity: 0; }
-        to { transform: translate(-50%, 0); opacity: 1; }
-    }
-
-    .keypad button {
-        width: 30%;
-        padding: 18px;
-        margin: 5px;
-        font-size: 20px;
-        border-radius: 12px;
-        border: none;
-        background: #ffb6e6;
-        font-weight: bold;
-        color: #5a0052;
-        transition: .15s;
-    }
-
-    .keypad button:active {
-        background: #ff8ed9;
-        transform: scale(.9);
     }
 
     .reset-btn {
@@ -123,12 +83,32 @@
     .reset-btn:active {
         background: #e6579d;
     }
+
+    /* Agar pas di layar HP */
+    @media (max-width: 480px) {
+        .row span {
+            font-size: 16px;
+        }
+
+        .row input {
+            width: 70px;
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .total-box {
+            font-size: 20px;
+        }
+    }
 </style>
 </head>
 
 <body>
 <div class="container">
-    <h2>Kasir Profesional</h2>
+    <h2>Kasir RG</h2>
 
     <div id="containerInputs"></div>
 
@@ -139,34 +119,9 @@
     <button class="reset-btn" onclick="resetAll()">Reset</button>
 </div>
 
-<!-- Keypad -->
-<div id="keypad" class="keypad">
-    <div>
-        <button onclick="pressKey('1')">1</button>
-        <button onclick="pressKey('2')">2</button>
-        <button onclick="pressKey('3')">3</button>
-    </div>
-    <div>
-        <button onclick="pressKey('4')">4</button>
-        <button onclick="pressKey('5')">5</button>
-        <button onclick="pressKey('6')">6</button>
-    </div>
-    <div>
-        <button onclick="pressKey('7')">7</button>
-        <button onclick="pressKey('8')">8</button>
-        <button onclick="pressKey('9')">9</button>
-    </div>
-    <div>
-        <button onclick="pressKey('0')">0</button>
-        <button onclick="delKey()">Del</button>
-        <button onclick="closeKeypad()">Tutup</button>
-    </div>
-</div>
-
 <script>
     const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
     const container = document.getElementById("containerInputs");
-    let activeInput = null;
 
     function formatRupiah(n) {
         return n.toLocaleString("id-ID");
@@ -178,14 +133,14 @@
 
         row.innerHTML = `
             <span>Rp ${formatRupiah(value)}</span>
-            <input type="text" id="qty-${value}" inputmode="none" readonly>
+            <input type="number" id="qty-${value}" min="0" placeholder="0">
             <span id="total-${value}">Rp 0</span>
         `;
 
         container.appendChild(row);
 
         const input = row.querySelector("input");
-        input.addEventListener("focus", () => openKeypad(input));
+        input.addEventListener("input", calculate);
     });
 
     function calculate() {
@@ -205,27 +160,6 @@
         document.querySelectorAll("input").forEach(i => i.value = "");
         document.querySelectorAll("[id^='total-']").forEach(t => t.textContent = "Rp 0");
         document.getElementById("grandTotal").textContent = "Rp 0";
-    }
-
-    function openKeypad(input) {
-        activeInput = input;
-        document.getElementById("keypad").style.display = "block";
-    }
-
-    function closeKeypad() {
-        document.getElementById("keypad").style.display = "none";
-    }
-
-    function pressKey(num) {
-        if (!activeInput) return;
-        activeInput.value += num;
-        calculate();
-    }
-
-    function delKey() {
-        if (!activeInput) return;
-        activeInput.value = activeInput.value.slice(0, -1);
-        calculate();
     }
 </script>
 
