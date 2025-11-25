@@ -75,7 +75,7 @@
     </h1>
 
     <label>Input Nilai Pinjaman</label>
-    <input id="inputValue" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
+    <input id="inputValue" inputmode="numeric" pattern="[0-9]*" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
 
     <label style="margin-top:12px; display:block;">Pilih Biaya Admin</label>
     <select id="adminSelect" onchange="updateValue()">
