@@ -2,165 +2,176 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kasir RG</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Kasir Mobile</title>
 <style>
     body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #ffb6d5, #d8b8ff);
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f2f4f7;
+        padding: 10px;
         margin: 0;
-        padding: 12px;
-        color: #4a2b4f;
     }
 
     .container {
-        background: white;
-        padding: 18px;
-        border-radius: 18px;
-        max-width: 420px;
+        background: #ffffff;
+        padding: 15px;
+        max-width: 430px;
         margin: auto;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
     h2 {
         text-align: center;
         margin-bottom: 20px;
         font-size: 24px;
-        font-weight: bold;
-        color: #7a2c6a;
+        color: #333;
     }
 
     .row {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background: #f9fafc;
+        padding: 12px;
         margin-bottom: 12px;
-        padding: 10px;
-        background: #ffe9f3;
-        border-radius: 12px;
-        transition: .2s;
+        border-radius: 10px;
+        border: 1px solid #e2e6ea;
+        transition: 0.25s;
     }
 
-    .row:focus-within {
-        background: #ffd8ed;
-        transform: scale(1.015);
+    .row:hover {
+        background: #eef2f6;
+        transform: scale(1.02);
+    }
+
+    .left {
+        font-size: 16px;
+        font-weight: 500;
+        width: 50%;
     }
 
     .row input {
-        font-size: 22px;
-        width: 90px;
-        padding: 10px;
+        width: 65px;
+        padding: 7px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
         text-align: center;
-        border: 2px solid #d67ab2;
-        border-radius: 12px;
-        outline: none;
+        font-size: 16px;
+        transition: 0.2s;
     }
 
+    /* Animasi input */
     .row input:focus {
-        border-color: #a40078;
-        background: #fff3fb;
+        border-color: #2b8df0;
+        box-shadow: 0 0 6px rgba(45,123,255,0.6);
+        transform: scale(1.05);
     }
 
-    .total-box {
-        font-size: 22px;
-        text-align: right;
-        margin-top: 22px;
+    .total {
         font-weight: bold;
-        color: #6b0057;
+        font-size: 22px;
+        margin-top: 15px;
+        text-align: right;
+        color: #2c7a7b;
     }
 
-    .reset-btn {
+    .btn-reset {
         width: 100%;
-        padding: 15px;
-        font-size: 20px;
-        border: none;
-        border-radius: 12px;
-        background: #ff7ab9;
-        color: white;
+        padding: 12px;
         margin-top: 20px;
+        font-size: 16px;
+        background: #e63946;
+        border: none;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
     }
 
-    .reset-btn:active {
-        background: #e6579d;
+    .btn-reset:hover {
+        background: #d62839;
     }
 
-    /* Agar pas di layar HP */
     @media (max-width: 480px) {
-        .row span {
-            font-size: 16px;
-        }
-
-        .row input {
-            width: 70px;
-            font-size: 20px;
-        }
-
-        h2 {
-            font-size: 20px;
-        }
-
-        .total-box {
-            font-size: 20px;
-        }
+        .row { padding: 10px; }
+        .row input { width: 55px; font-size: 15px; }
+        .total { font-size: 19px; }
     }
 </style>
 </head>
-
 <body>
+
 <div class="container">
-    <h2>Kasir RG</h2>
+    <h2>Kalkulator Kasir</h2>
 
-    <div id="containerInputs"></div>
+    <div id="inputs"></div>
 
-    <div class="total-box">
+    <div class="total">
         Total: <span id="grandTotal">Rp 0</span>
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">Reset</button>
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
 </div>
 
 <script>
+    // Daftar pecahan
     const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
-    const container = document.getElementById("containerInputs");
 
-    function formatRupiah(n) {
-        return n.toLocaleString("id-ID");
+    const container = document.getElementById("inputs");
+
+    function formatRupiah(amount) {
+        return "Rp " + amount.toLocaleString("id-ID");
     }
 
+    // Generate input & label
     denominations.forEach(value => {
         const row = document.createElement("div");
         row.className = "row";
 
         row.innerHTML = `
-            <span>Rp ${formatRupiah(value)}</span>
-            <input type="number" id="qty-${value}" min="0" placeholder="0">
+            <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
+            <input type="number" 
+                   id="qty-${value}" 
+                   placeholder="0"
+                   min="0"
+                   oninput="this.value=this.value.replace(/^0+/, '')">
             <span id="total-${value}">Rp 0</span>
         `;
-
         container.appendChild(row);
-
-        const input = row.querySelector("input");
-        input.addEventListener("input", calculate);
     });
 
     function calculate() {
-        let total = 0;
+        let grandTotal = 0;
 
         denominations.forEach(value => {
-            const qty = parseInt(document.getElementById(`qty-${value}`).value || 0);
-            const rowTotal = qty * value;
-            document.getElementById(`total-${value}`).textContent = "Rp " + formatRupiah(rowTotal);
-            total += rowTotal;
+            const raw = document.getElementById(`qty-${value}`).value;
+            const qty = parseInt(raw) || 0;
+            const total = qty * value;
+
+            document.getElementById(`total-${value}`).textContent = formatRupiah(total);
+            grandTotal += total;
         });
 
-        document.getElementById("grandTotal").textContent = "Rp " + formatRupiah(total);
+        document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
     }
 
     function resetAll() {
-        document.querySelectorAll("input").forEach(i => i.value = "");
-        document.querySelectorAll("[id^='total-']").forEach(t => t.textContent = "Rp 0");
+        denominations.forEach(value => {
+            document.getElementById(`qty-${value}`).value = "";
+            document.getElementById(`total-${value}`).textContent = "Rp 0";
+        });
+
         document.getElementById("grandTotal").textContent = "Rp 0";
     }
+
+    container.addEventListener("input", calculate);
 </script>
 
 </body>
