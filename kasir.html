@@ -2,200 +2,231 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Kasir Mobile</title>
+<title>Kasir Profesional</title>
+
 <style>
     body {
-        font-family: "Segoe UI", Arial, sans-serif;
-        background: #f2f4f7;
-        padding: 10px;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ffb6d5, #d8b8ff);
         margin: 0;
+        padding: 15px;
+        color: #4a2b4f;
     }
 
     .container {
-        background: #ffffff;
-        padding: 15px;
-        max-width: 430px;
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        max-width: 450px;
         margin: auto;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border-radius: 12px;
-        animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to   { opacity: 1; transform: translateY(0); }
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     h2 {
         text-align: center;
         margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
+        font-size: 26px;
+        font-weight: bold;
+        color: #7a2c6a;
     }
 
     .row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #f9fafc;
+        margin-bottom: 15px;
         padding: 10px;
-        margin-bottom: 12px;
+        background: #ffe9f3;
         border-radius: 10px;
-        border: 1px solid #e2e6ea;
-        transition: 0.25s;
+        transition: .2s;
     }
 
-    .row:hover {
-        background: #eef2f6;
+    .row:focus-within {
+        background: #ffd8ed;
         transform: scale(1.02);
     }
 
-    .money-img {
-        width: 55px;
-        height: auto;
-        border-radius: 6px;
-        margin-right: 10px;
-    }
-
-    .left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 50%;
-    }
-
     .row input {
-        width: 65px;
-        padding: 6px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
+        font-size: 20px;
+        width: 80px;
+        padding: 8px;
         text-align: center;
-        font-size: 16px;
-        transition: 0.2s;
-    }
-
-    /* Animasi input saat mengetik */
-    .row input:focus {
-        border-color: #2b8df0;
-        box-shadow: 0 0 6px rgba(45, 123, 255, 0.6);
-        transform: scale(1.05);
-    }
-
-    .total {
-        font-weight: bold;
-        font-size: 22px;
-        margin-top: 15px;
-        text-align: right;
-        color: #2c7a7b;
-    }
-
-    .btn-reset {
-        width: 100%;
-        padding: 12px;
-        margin-top: 20px;
-        font-size: 16px;
-        background: #e63946;
-        border: none;
-        color: white;
+        border: 2px solid #d67ab2;
         border-radius: 10px;
-        cursor: pointer;
-        transition: 0.2s;
+        outline: none;
     }
 
-    .btn-reset:hover {
-        background: #d62839;
+    .row input:focus {
+        border-color: #a40078;
+        background: #fff3fb;
     }
 
-    @media (max-width: 480px) {
-        .row { padding: 8px; }
-        .row input { width: 55px; }
-        .money-img { width: 45px; }
-        .total { font-size: 19px; }
+    .total-box {
+        font-size: 22px;
+        text-align: right;
+        margin-top: 25px;
+        font-weight: bold;
+        color: #6b0057;
+    }
+
+    /* Keypad */
+    .keypad {
+        display: none;
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 15px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        animation: slideUp .3s ease;
+        z-index: 999;
+    }
+
+    @keyframes slideUp {
+        from { transform: translate(-50%, 60px); opacity: 0; }
+        to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .keypad button {
+        width: 30%;
+        padding: 18px;
+        margin: 5px;
+        font-size: 20px;
+        border-radius: 12px;
+        border: none;
+        background: #ffb6e6;
+        font-weight: bold;
+        color: #5a0052;
+        transition: .15s;
+    }
+
+    .keypad button:active {
+        background: #ff8ed9;
+        transform: scale(.9);
+    }
+
+    .reset-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 20px;
+        border: none;
+        border-radius: 12px;
+        background: #ff7ab9;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .reset-btn:active {
+        background: #e6579d;
     }
 </style>
 </head>
+
 <body>
-
 <div class="container">
-    <h2>Kalkulator Kasir</h2>
+    <h2>Kasir Profesional</h2>
 
-    <div id="inputs"></div>
+    <div id="containerInputs"></div>
 
-    <div class="total">
+    <div class="total-box">
         Total: <span id="grandTotal">Rp 0</span>
     </div>
 
-    <button class="btn-reset" onclick="resetAll()">Reset</button>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+</div>
+
+<!-- Keypad -->
+<div id="keypad" class="keypad">
+    <div>
+        <button onclick="pressKey('1')">1</button>
+        <button onclick="pressKey('2')">2</button>
+        <button onclick="pressKey('3')">3</button>
+    </div>
+    <div>
+        <button onclick="pressKey('4')">4</button>
+        <button onclick="pressKey('5')">5</button>
+        <button onclick="pressKey('6')">6</button>
+    </div>
+    <div>
+        <button onclick="pressKey('7')">7</button>
+        <button onclick="pressKey('8')">8</button>
+        <button onclick="pressKey('9')">9</button>
+    </div>
+    <div>
+        <button onclick="pressKey('0')">0</button>
+        <button onclick="delKey()">Del</button>
+        <button onclick="closeKeypad()">Tutup</button>
+    </div>
 </div>
 
 <script>
-    // Pecahan + gambar uang
-    const denominations = [
-        { value: 100000, img: "https://i.imgur.com/GPv7n5m.png" },
-        { value: 50000, img: "https://i.imgur.com/PQctayq.png" },
-        { value: 20000, img: "https://i.imgur.com/SU2mG6d.png" },
-        { value: 10000, img: "https://i.imgur.com/zf3zvVQ.png" },
-        { value: 5000, img: "https://i.imgur.com/7ZjDMPv.png" },
-        { value: 1000, img: "https://i.imgur.com/HT4mp7P.png" },
-        { value: 500, img: "https://i.imgur.com/XEs19Fh.png" }
-    ];
+    const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
+    const container = document.getElementById("containerInputs");
+    let activeInput = null;
 
-    const container = document.getElementById("inputs");
-
-    function formatRupiah(amount) {
-        return "Rp " + amount.toLocaleString("id-ID");
+    function formatRupiah(n) {
+        return n.toLocaleString("id-ID");
     }
 
-    // Generate kotak input + gambar uang
-    denominations.forEach(item => {
+    denominations.forEach(value => {
         const row = document.createElement("div");
         row.className = "row";
 
         row.innerHTML = `
-            <div class="left">
-                <img src="${item.img}" class="money-img">
-                <span>Rp ${item.value.toLocaleString("id-ID")}</span>
-            </div>
-
-            <input type="number" 
-                   id="qty-${item.value}" 
-                   placeholder="0"
-                   min="0"
-                   oninput="this.value=this.value.replace(/^0+/, '')">
-            <span id="total-${item.value}">Rp 0</span>
+            <span>Rp ${formatRupiah(value)}</span>
+            <input type="text" id="qty-${value}" inputmode="none" readonly>
+            <span id="total-${value}">Rp 0</span>
         `;
 
         container.appendChild(row);
+
+        const input = row.querySelector("input");
+        input.addEventListener("focus", () => openKeypad(input));
     });
 
     function calculate() {
-        let grandTotal = 0;
+        let total = 0;
 
-        denominations.forEach(item => {
-            const raw = document.getElementById(`qty-${item.value}`).value;
-            const qty = parseInt(raw) || 0;
-
-            const total = qty * item.value;
-            document.getElementById(`total-${item.value}`).textContent = formatRupiah(total);
-
-            grandTotal += total;
+        denominations.forEach(value => {
+            const qty = parseInt(document.getElementById(`qty-${value}`).value || 0);
+            const rowTotal = qty * value;
+            document.getElementById(`total-${value}`).textContent = "Rp " + formatRupiah(rowTotal);
+            total += rowTotal;
         });
 
-        document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
+        document.getElementById("grandTotal").textContent = "Rp " + formatRupiah(total);
     }
 
     function resetAll() {
-        denominations.forEach(item => {
-            const input = document.getElementById(`qty-${item.value}`);
-            input.value = "";
-            document.getElementById(`total-${item.value}`).textContent = "Rp 0";
-        });
-
+        document.querySelectorAll("input").forEach(i => i.value = "");
+        document.querySelectorAll("[id^='total-']").forEach(t => t.textContent = "Rp 0");
         document.getElementById("grandTotal").textContent = "Rp 0";
     }
 
-    container.addEventListener("input", calculate);
+    function openKeypad(input) {
+        activeInput = input;
+        document.getElementById("keypad").style.display = "block";
+    }
+
+    function closeKeypad() {
+        document.getElementById("keypad").style.display = "none";
+    }
+
+    function pressKey(num) {
+        if (!activeInput) return;
+        activeInput.value += num;
+        calculate();
+    }
+
+    function delKey() {
+        if (!activeInput) return;
+        activeInput.value = activeInput.value.slice(0, -1);
+        calculate();
+    }
 </script>
 
 </body>
