@@ -165,8 +165,10 @@ function loadDueDates() {
     // +3 HARI
     let plus3 = new Date();
     plus3.setDate(today.getDate() + 3);
+    plus30.setDate(today.getDate() + 30);
     document.getElementById("dueDate3").innerHTML = `
-        <div class="date-row"><strong>Hari Ini: </strong> ${formatTanggal(today)}</div>
+        <div class="date-row"><strong>Tanggal Transaksi: </strong> ${formatTanggal(today)}</div>
+        <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus30)}</div>
         <div class="date-row"><strong>Batas Diskon: </strong> ${formatTanggal(plus3)}</div>
     `;
 
