@@ -173,9 +173,9 @@ function loadDueDates() {
   
   // +3 HARI
     let plus3 = new Date();
-    plus30.setDate(today.getDate() + 3);
-    document.getElementById("dueDate30").innerHTML = `
-        <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus30)}</div>
+    plus3.setDate(today.getDate() + 3);
+    document.getElementById("dueDate3").innerHTML = `
+        <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus3)}</div>
     `;
 
     // +45 HARI
