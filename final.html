@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Kasir</title>
+
+<style>
+/* ---------------- SIDEBAR ---------------- */
+.sidebar-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #4B0082;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1100;
+  font-size: 18px;
+}
+
+.sidebar {
+  width: 220px;
+  background: #4B0082;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -220px;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+  z-index: 1200;
+  border-right: 3px solid #6A0DAD;
+}
+
+.sidebar.active { left: 0; }
+
+.close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 22px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.menu-item {
+  display: block;
+  padding: 12px;
+  margin-top: 10px;
+  background: #6A0DAD;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.menu-item:hover { background: #8A2BE2; }
+
+/* BLUR OVERLAY */
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: none;
+}
+
+.blur-overlay.active { display: block; }
+
+/* ---------------- KALKULATOR STYLE ---------------- */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #8A2BE2;
+  padding: 10px;
+  margin: 0;
+}
+
+.container {
+  background: #ffffff;
+  padding: 15px;
+  max-width: 430px;
+  margin: auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafc;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e6ea;
+  transition: 0.25s;
+}
+
+.row:hover {
+  background: #eef2f6;
+  transform: scale(1.02);
+}
+
+.left {
+  font-size: 16px;
+  font-weight: 500;
+  width: 50%;
+}
+
+.row input {
+  width: 65px;
+  padding: 7px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.row input:focus {
+  border-color: #2b8df0;
+  box-shadow: 0 0 6px rgba(45,123,255,0.6);
+  transform: scale(1.05);
+}
+
+.total {
+  font-weight: bold;
+  font-size: 22px;
+  margin-top: 15px;
+  text-align: right;
+  color: #2c7a7b;
+}
+
+.btn-reset {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  font-size: 16px;
+  background: #e63946;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-reset:hover { background: #d62839; }
+
+@media (max-width: 480px) {
+  .row { padding: 10px; }
+  .row input { width: 55px; font-size: 15px; }
+  .total { font-size: 19px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOMBOL SIDEBAR -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">✕</button>
+
+  <a href="ProjectSaya.html" style="margin-top:30px;" class="menu-item">Kalkulator CS</a>
+  <a href="kasir.html" class="menu-item">Kalkulator Kasir</a>
+</div>
+
+<!-- OVERLAY -->
+<div id="blurOverlay" class="blur-overlay" onclick="toggleSidebar()"></div>
+
+<!-- KONTEN UTAMA -->
+<div class="container">
+  <h2>Kasir <span style=" color:#8A2BE2;">R</span><span style=" color:#7FFF00;">G</span> Cibarusah Kota</h2>
+
+  <div id="inputs"></div>
+
+  <div class="total">
+      Total: <span id="grandTotal">Rp 0</span>
+  </div>
+
+  <button onclick="return confirmReset()" class="btn-reset">Reset</button>
+
+  <br><footer style="color: gray">copyright by.ari</footer>
+</div>
+
+<script>
+/* SIDEBAR SCRIPT */
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const blur = document.getElementById("blurOverlay");
+
+  sidebar.classList.toggle("active");
+  blur.classList.toggle("active");
+}
+
+/* KALKULATOR SCRIPT */
+function confirmReset() {
+  if (confirm('Yakin Ek Dihapus?')) {
+      resetAll();
+  }
+  return false;
+}
+
+const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
+const container = document.getElementById("inputs");
+
+function formatRupiah(amount) {
+  return "Rp " + amount.toLocaleString("id-ID");
+}
+
+/* --------------- INPUT UANG BRANKAS (DITAMBAHKAN) --------------- */
+const brankasRow = document.createElement("div");
+brankasRow.className = "row";
+brankasRow.innerHTML = `
+    <div class="left">Uang Brankas</div>
+    <input type="number" id="brankasInput" placeholder="0" min="0"
+        oninput="this.value=this.value.replace(/^0+/, '')">
+    <span id="total-brankas">Rp 0</span>
+`;
+container.appendChild(brankasRow);
+/* ---------------------------------------------------------------- */
+
+denominations.forEach(value => {
+  const row = document.createElement("div");
+  row.className = "row";
+
+  row.innerHTML = `
+      <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
+      <input type="number" id="qty-${value}" placeholder="0" min="0"
+             oninput="this.value=this.value.replace(/^0+/, '')">
+      <span id="total-${value}">Rp 0</span>
+  `;
+  container.appendChild(row);
+});
+
+function calculate() {
+  let grandTotal = 0;
+
+  denominations.forEach(value => {
+      const raw = document.getElementById(`qty-${value}`).value;
+      const qty = parseInt(raw) || 0;
+      const total = qty * value;
+
+      document.getElementById(`total-${value}`).textContent = formatRupiah(total);
+      grandTotal += total;
+  });
+
+  /* ---- HITUNG BRANKAS ---- */
+  const brankasRaw = document.getElementById("brankasInput").value;
+  const brankas = parseInt(brankasRaw) || 0;
+  document.getElementById("total-brankas").textContent = formatRupiah(brankas);
+
+  /* ---- TOTAL AKHIR ---- */
+  const totalAkhir = grandTotal + brankas;
+  document.getElementById("grandTotal").textContent = formatRupiah(totalAkhir);
+}
+
+function resetAll() {
+  denominations.forEach(value => {
+      document.getElementById(`qty-${value}`).value = "";
+      document.getElementById(`total-${value}`).textContent = "Rp 0";
+  });
+
+  document.getElementById("brankasInput").value = "";
+  document.getElementById("total-brankas").textContent = "Rp 0";
+
+  document.getElementById("grandTotal").textContent = "Rp 0";
+}
+
+container.addEventListener("input", calculate);
+</script>
+
+</body>
+  </html>
+  
