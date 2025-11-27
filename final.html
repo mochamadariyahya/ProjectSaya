@@ -4,297 +4,210 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalkulator Kasir</title>
-
 <style>
-/* ---------------- SIDEBAR ---------------- */
-.sidebar-toggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: #4B0082;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1100;
-  font-size: 18px;
-}
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #8A2BE2;
+        padding: 10px;
+        margin: 0;
+    }
 
-.sidebar {
-  width: 220px;
-  background: #4B0082;
-  color: white;
-  position: fixed;
-  top: 0;
-  left: -220px;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  transition: 0.3s ease;
-  z-index: 1200;
-  border-right: 3px solid #6A0DAD;
-}
+    .container {
+        background: #ffffff;
+        padding: 15px;
+        max-width: 450px;
+        margin: auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        animation: fadeIn 0.5s ease;
+    }
 
-.sidebar.active { left: 0; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 
-.close-btn {
-  background: transparent;
-  color: white;
-  border: none;
-  font-size: 22px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: #333;
+    }
 
-.menu-item {
-  display: block;
-  padding: 12px;
-  margin-top: 10px;
-  background: #6A0DAD;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 15px;
-  transition: 0.2s;
-}
+    /* --- BAGIAN BRANKAS (dibedakan tampilannya) --- */
+    .brankas-box {
+        background: #f3e8ff;
+        border: 2px solid #c084fc;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
 
-.menu-item:hover { background: #8A2BE2; }
+    .label-brankas {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        font-size: 17px;
+        color: #6b21a8;
+    }
 
-/* BLUR OVERLAY */
-.blur-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  display: none;
-}
+    .brankas-box input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #a855f7;
+        outline: none;
+        box-sizing: border-box;
+    }
 
-.blur-overlay.active { display: block; }
+    /* --- LIST PECAHAN KASIR --- */
+    .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9fafc;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        border: 1px solid #e2e6ea;
+        transition: 0.25s;
+    }
 
-/* ---------------- KALKULATOR STYLE ---------------- */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: #8A2BE2;
-  padding: 10px;
-  margin: 0;
-}
+    .row:hover {
+        background: #eef2f6;
+        transform: scale(1.02);
+    }
 
-.container {
-  background: #ffffff;
-  padding: 15px;
-  max-width: 430px;
-  margin: auto;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border-radius: 12px;
-  animation: fadeIn 0.5s ease;
-}
+    .left {
+        font-size: 16px;
+        font-weight: 500;
+        width: 50%;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    .row input {
+        width: 65px;
+        padding: 7px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+        font-size: 16px;
+    }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
+    .total-box {
+        background: #f8fafc;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #d1d5db;
+        margin-top: 15px;
+        font-size: 18px;
+    }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f9fafc;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #e2e6ea;
-  transition: 0.25s;
-}
+    .btn-reset {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        font-size: 16px;
+        background: #e63946;
+        border: none;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-.row:hover {
-  background: #eef2f6;
-  transform: scale(1.02);
-}
+    footer { text-align:center; margin-top:10px; color: gray; }
 
-.left {
-  font-size: 16px;
-  font-weight: 500;
-  width: 50%;
-}
-
-.row input {
-  width: 65px;
-  padding: 7px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  text-align: center;
-  font-size: 16px;
-  transition: 0.2s;
-}
-
-.row input:focus {
-  border-color: #2b8df0;
-  box-shadow: 0 0 6px rgba(45,123,255,0.6);
-  transform: scale(1.05);
-}
-
-.total {
-  font-weight: bold;
-  font-size: 22px;
-  margin-top: 15px;
-  text-align: right;
-  color: #2c7a7b;
-}
-
-.btn-reset {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  font-size: 16px;
-  background: #e63946;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-reset:hover { background: #d62839; }
-
-@media (max-width: 480px) {
-  .row { padding: 10px; }
-  .row input { width: 55px; font-size: 15px; }
-  .total { font-size: 19px; }
-}
 </style>
 </head>
-
 <body>
 
-<!-- TOMBOL SIDEBAR -->
-<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-
-<!-- SIDEBAR -->
-<div id="sidebar" class="sidebar">
-  <button class="close-btn" onclick="toggleSidebar()">✕</button>
-
-  <a href="ProjectSaya.html" style="margin-top:30px;" class="menu-item">Kalkulator CS</a>
-  <a href="kasir.html" class="menu-item">Kalkulator Kasir</a>
-</div>
-
-<!-- OVERLAY -->
-<div id="blurOverlay" class="blur-overlay" onclick="toggleSidebar()"></div>
-
-<!-- KONTEN UTAMA -->
 <div class="container">
-  <h2>Kasir <span style=" color:#8A2BE2;">R</span><span style=" color:#7FFF00;">G</span> Cibarusah Kota</h2>
 
-  <div id="inputs"></div>
+    <h2>Kalkulator Kasir + Brankas</h2>
 
-  <div class="total">
-      Total Kasir: <span id="totalKasir">Rp 0</span>
-  </div>
+    <!-- ================= BAGIAN BRANKAS (DIBEDAKAN) ================= -->
+    <div class="brankas-box">
+        <label class="label-brankas">Total Nominal Uang di Brankas</label>
+        <input type="number" id="brankasInput" placeholder="Masukkan nominal brankas..." oninput="calculate()">
+    </div>
 
-  <div class="total">
-      Total Akhir (Brankas + Kasir): <span id="grandTotal">Rp 0</span>
-  </div>
+    <!-- ================= LIST PECAHAN KASIR ================= -->
+    <h3 style="margin-bottom: 10px;">Uang di Kasir</h3>
+    <div id="inputs"></div>
 
-  <button onclick="return confirmReset()" class="btn-reset">Reset</button>
+    <!-- ================= TOTAL ================= -->
+    <div class="total-box">
+        <div>Total Kasir: <b><span id="totalKasir">Rp 0</span></b></div>
+        <div>Total Brankas: <b><span id="totalBrankas">Rp 0</span></b></div>
+        <hr>
+        <div>Total Keseluruhan: <b><span id="totalSemua">Rp 0</span></b></div>
+    </div>
 
-  <br><footer style="color: gray">copyright by.ari</footer>
+    <button onclick="return confirmReset()" class="btn-reset">Reset</button>
+    <footer>copyright by. ari</footer>
+
 </div>
 
 <script>
-/* SIDEBAR SCRIPT */
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const blur = document.getElementById("blurOverlay");
+    //konfirmasi tombol reset 
+    function confirmReset() {
+        if (confirm('Yakin ingin direset?')) resetAll();
+        return false;
+    }
 
-  sidebar.classList.toggle("active");
-  blur.classList.toggle("active");
-}
+    const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
+    const container = document.getElementById("inputs");
 
-/* KALKULATOR SCRIPT */
-function confirmReset() {
-  if (confirm('Yakin Ek Dihapus?')) {
-      resetAll();
-  }
-  return false;
-}
+    function formatRupiah(amount) {
+        return "Rp " + amount.toLocaleString("id-ID");
+    }
 
-const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
-const container = document.getElementById("inputs");
+    // Generate input pecahan kasir
+    denominations.forEach(value => {
+        const row = document.createElement("div");
+        row.className = "row";
 
-function formatRupiah(amount) {
-  return "Rp " + amount.toLocaleString("id-ID");
-}
+        row.innerHTML = `
+            <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
+            <input type="number" id="qty-${value}" placeholder="0" min="0">
+            <span id="total-${value}">Rp 0</span>
+        `;
+        container.appendChild(row);
+    });
 
-/* ------------------ INPUT BRANKAS ------------------ */
-const brankasRow = document.createElement("div");
-brankasRow.className = "row";
-brankasRow.innerHTML = `
-    <div class="left">Uang Brankas</div>
-    <input type="number" id="brankasInput" placeholder="0" min="0">
-    <span id="total-brankas">Rp 0</span>
-`;
-container.appendChild(brankasRow);
-/* --------------------------------------------------- */
+    function calculate() {
+        let totalKasir = 0;
 
-/* ------------------ INPUT PECAHAN ------------------ */
-denominations.forEach(value => {
-  const row = document.createElement("div");
-  row.className = "row";
+        denominations.forEach(value => {
+            const qty = parseInt(document.getElementById(`qty-${value}`).value) || 0;
+            const subtotal = qty * value;
+            document.getElementById(`total-${value}`).textContent = formatRupiah(subtotal);
+            totalKasir += subtotal;
+        });
 
-  row.innerHTML = `
-      <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
-      <input type="number" id="qty-${value}" placeholder="0" min="0">
-      <span id="total-${value}">Rp 0</span>
-  `;
-  container.appendChild(row);
-});
-/* --------------------------------------------------- */
+        const brankas = parseInt(document.getElementById("brankasInput").value) || 0;
 
-function calculate() {
-  let totalKasir = 0;
+        document.getElementById("totalKasir").textContent = formatRupiah(totalKasir);
+        document.getElementById("totalBrankas").textContent = formatRupiah(brankas);
+        document.getElementById("totalSemua").textContent = formatRupiah(totalKasir + brankas);
+    }
 
-  denominations.forEach(value => {
-      const qty = parseInt(document.getElementById(`qty-${value}`).value) || 0;
-      const subtotal = qty * value;
-      totalKasir += subtotal;
-      document.getElementById(`total-${value}`).textContent = formatRupiah(subtotal);
-  });
+    function resetAll() {
+        document.getElementById("brankasInput").value = "";
+        document.getElementById("totalBrankas").textContent = "Rp 0";
 
-  document.getElementById("totalKasir").textContent = formatRupiah(totalKasir);
+        denominations.forEach(value => {
+            document.getElementById(`qty-${value}`).value = "";
+            document.getElementById(`total-${value}`).textContent = "Rp 0";
+        });
 
-  const brankas = parseInt(document.getElementById("brankasInput").value) || 0;
-  document.getElementById("total-brankas").textContent = formatRupiah(brankas);
+        document.getElementById("totalKasir").textContent = "Rp 0";
+        document.getElementById("totalSemua").textContent = "Rp 0";
+    }
 
-  const totalAkhir = totalKasir + brankas;
-  document.getElementById("grandTotal").textContent = formatRupiah(totalAkhir);
-}
-
-function resetAll() {
-  denominations.forEach(value => {
-      document.getElementById(`qty-${value}`).value = "";
-      document.getElementById(`total-${value}`).textContent = "Rp 0";
-  });
-
-  document.getElementById("brankasInput").value = "";
-  document.getElementById("total-brankas").textContent = "Rp 0";
-  document.getElementById("totalKasir").textContent = "Rp 0";
-  document.getElementById("grandTotal").textContent = "Rp 0";
-}
-
-container.addEventListener("input", calculate);
+    container.addEventListener("input", calculate);
+    document.getElementById("brankasInput").addEventListener("input", calculate);
 </script>
 
 </body>
