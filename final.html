@@ -228,7 +228,7 @@ h2 {
   <!-- INPUT BRANKAS -->
   <div class="brankas-box">
     <label>Nominal Brankas</label>
-    <input type="number" style="width: 355px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
+    <input type="number" style="width: 352px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
   <button style="width: 80px;" onclick="return confirmReset()" class="btn-reset">Reset</button>
   <span style="color:#8A2BE2;">Nominal: <span style="color:#8A2BE2;" id="totalBrankas">0</span></span>
   </div>
@@ -305,6 +305,7 @@ function calculate() {
 function resetAll() {
   document.getElementById("brankasInput").value = "";
   document.getElementById("totalBrankas").textContent = "Rp 0";
+  document.getElementById("totalBrankas2").textContent = "Rp 0";
 
   denominations.forEach(value => {
     document.getElementById(`qty-${value}`).value = "";
