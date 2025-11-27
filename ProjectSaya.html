@@ -3,24 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CS-ProjectONE</title>
+  <title>kalkulator CS</title>
 
-  <style>
-    body {
-      color: black;
-      font-family: Arial, sans-serif;
-      background: #8A2BE2;
-      padding: 20px;
-    }
-    .container {
-      max-width: 480px;
-      margin: auto;
-      background: #fff;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .date-box {
+<style>
+  body {
+    color: black;
+    font-family: Arial, sans-serif;
+    background: #8A2BE2;
+    padding: 20px;
+    margin: 0;
+  }
+
+  /* ============ SIDEBAR & TOGGLE ============ */
+  .sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #4B0082;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 1100;
+  }
+
+  .sidebar {
+    width: 240px;
+    background: #4B0082;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -240px;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: 0.3s ease;
+    z-index: 1200;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .close-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .sidebar h2 {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .menu-item {
+    display: block;
+    padding: 12px;
+    margin-top: 10px;
+    background: #6A0DAD;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .menu-item:hover {
+    background: #7D22C6;
+  }
+
+  .blur-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+  }
+
+  .blur-overlay.active {
+    display: block;
+  }
+
+  /* ============ ASLI DARI KODEMU (TIDAK DIUBAH) ============ */
+  .container {
+    max-width: 480px;
+    margin: auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  .date-box {
     margin-top: 20px;
     background: #f0f3ff;
     padding: 12px;
@@ -28,8 +108,8 @@
     margin-bottom: 15px;
     border: 1px solid #dce2ff;
     font-size: 0.9rem;
-    }
-    .date-boxx {
+  }
+  .date-boxx {
     margin-top: 20px;
     background: #f0f3ff;
     padding: 12px;
@@ -38,59 +118,71 @@
     border: 1px solid #dce2ff;
     font-size: 0.9rem;
     color: red;
-    }
-
-.date-row {
-    margin: 4px 0;
-}
-    h1 {
-      font-size: 22px;
-      margin-bottom: 16px;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    .row {
-      display: flex;
-      gap: 8px;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 14px;
-      border: none;
-      background: #e5e7eb;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .box {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-    }
-    .label {
-      font-size: 12px;
-      color: gray;
-    }
-    .value {
-      font-size: 20px;
-      margin-top: 6px;
-      font-weight: bold;
-    }
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #333;
-    }
-  </style>
+  }
+  .date-row { margin: 4px 0; }
+  h1 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    font-weight: bold;
+  }
+  input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  .row {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  button {
+    padding: 10px 14px;
+    border: none;
+    background: #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .box {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 12px;
+  }
+  .label { font-size: 12px; color: gray; }
+  .value {
+    font-size: 20px;
+    margin-top: 6px;
+    font-weight: bold;
+  }
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+</style>
 </head>
 <body>
+
+<!-- ====== TOMBOL MENU ====== -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- ====== SIDEBAR ====== -->
+<div id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">✕</button>
+
+  <a class="menu-item" style="margin-top:30px;" href="ProjectSaya.html">Kalkulator CS</a>
+  <a class="menu-item" href="kasir.html">Kalkulator Kasir</a>
+</div>
+
+<!-- ====== BLUR BACKGROUND ====== -->
+<div id="blurOverlay" class="blur-overlay" onclick="toggleSidebar()"></div>
+
+<!-- ======================================================== -->
+<!-- ============   KALKULATOR ASLI KAMU (UTUH)  ============ -->
+<!-- ======================================================== -->
 
   <div class="container">
     <h1>
@@ -113,8 +205,7 @@
       <button onclick="resetInput()">Reset</button>
       <button onclick="add000()">+000</button>
     </div>
-    
-<!-- FIELD BARU (ADMIN, ASURANSI, TARIF 10%, TOTAL) -->
+
     <div class="box">
       <div class="label">Biaya Admin (minimal 10.000)</div>
       <div class="value" style="color:#DCDCDC;" id="biayaAdmin">Rp0</div>
@@ -128,13 +219,15 @@
       <div class="label" style="margin-top:10px;">Total Bersihnya</div>
       <div class="value" id="totalAkhir">Rp0</div>
     </div>
-    
+
     <div class="box">
       <div class="label">Jumlah Pinjaman</div>
       <div class="value" id="ppa">Rp0</div>
     </div>
-<div class="date-box" id="dueDate30"></div>
+
+    <div class="date-box" id="dueDate30"></div>
     <div class="date-box" id="dueDate3"></div>
+
     <div class="box">
       <div class="label">Diskon Tarif 50%</div>
       <div class="value" style="color:#DCDCDC;" id="p5">Rp0</div>
@@ -147,7 +240,9 @@
       <div class="label">Perpanjang Normal (11%)</div>
       <div class="value" id="p11">Rp0</div>
     </div>
-<div class="date-boxx" id="dueDate45"></div>
+
+    <div class="date-boxx" id="dueDate45"></div>
+
     <div class="box">
       <div class="label">Perpanjang Lewat Tempo (16%)</div>
       <div class="value" id="p16">Rp0</div>
@@ -161,119 +256,100 @@
     <footer>copyright by.ari</footer>
   </div>
 
-  <script>
-    function formatTanggal(d) {
-    return d.toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-    });
+<script>
+/* ========== SIDEBAR SCRIPT ========== */
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("blurOverlay").classList.toggle("active");
+}
+
+/* ========== KALKULATOR ASLI (TIDAK DIUBAH) ========== */
+
+function formatTanggal(d) {
+  return d.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  });
 }
 
 function loadDueDates() {
-    let today = new Date();
+  let today = new Date();
 
-    // +30 HARI
-    let plus30 = new Date();
-    plus30.setDate(today.getDate() + 30);
-    document.getElementById("dueDate30").innerHTML = `
-        <div class="date-row"><strong>Tanggal Transaksi: </strong> ${formatTanggal(today)}</div>
-        <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus30)}</div>
-    `;
-  
-  // +3 HARI
-    let plus3 = new Date();
-    plus3.setDate(today.getDate() + 3);
-    document.getElementById("dueDate3").innerHTML = `
-        <div class="date-row"><strong>Batas Diskon: </strong> ${formatTanggal(plus3)}</div>
-    `;
+  let plus30 = new Date(); plus30.setDate(today.getDate() + 30);
+  document.getElementById("dueDate30").innerHTML =
+    `<div class="date-row"><strong>Tanggal Transaksi: </strong> ${formatTanggal(today)}</div>
+     <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus30)}</div>`;
 
-    // +45 HARI
-    let plus45 = new Date();
-    plus45.setDate(today.getDate() + 45);
-    document.getElementById("dueDate45").innerHTML = `
-        <div class="date-row"><stron>Batas Toleransi: </strong> ${formatTanggal(plus45)}</div>
-    `;
+  let plus3 = new Date(); plus3.setDate(today.getDate() + 3);
+  document.getElementById("dueDate3").innerHTML =
+    `<div class="date-row"><strong>Batas Diskon: </strong> ${formatTanggal(plus3)}</div>`;
+
+  let plus45 = new Date(); plus45.setDate(today.getDate() + 45);
+  document.getElementById("dueDate45").innerHTML =
+    `<div class="date-row"><strong>Batas Toleransi: </strong> ${formatTanggal(plus45)}</div>`;
 }
 
 window.onload = loadDueDates;
-    document.getElementById("inputValue").addEventListener("input", function () {
-      this.value = this.value.replace(/[^0-9]/g, "");
-    });
+document.getElementById("inputValue").addEventListener("input", function () {
+  this.value = this.value.replace(/[^0-9]/g, "");
+});
 
-    function formatRupiah(angka) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0
-      }).format(angka);
-    }
+function formatRupiah(angka) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(angka);
+}
 
-    function updateValue() {
-      let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-      if (raw === "") raw = "0";
+function updateValue() {
+  let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+  if (raw === "") raw = "0";
 
-      let value = parseInt(raw);
-      let adminOption = document.getElementById("adminSelect").value;
+  let value = parseInt(raw);
+  let adminOption = document.getElementById("adminSelect").value;
 
-      // Hitungan 1% minimal 5000 (untuk perpanjang)
-      let satuPersen = Math.max(Math.round(value * 0.01), 5000);
-      let p11 = Math.round(value * 0.10) + satuPersen;
-      let p16 = Math.round(value * 0.15) + satuPersen;
+  let satuPersen = Math.max(Math.round(value * 0.01), 5000);
+  let p11 = Math.round(value * 0.10) + satuPersen;
+  let p16 = Math.round(value * 0.15) + satuPersen;
 
-      // ========= FITUR ADMIN BARU =========
-      let adminCost = 0;
+  let adminCost = 0;
 
-      if (adminOption === "25000") {
-        adminCost = 25000;
-      }
-      else if (adminOption === "1") {
-        // Admin 1% PER JUTA dibulatkan ke atas (10.000 per 1 juta)
-        let juta = Math.ceil(value / 1000000);
-        adminCost = juta * 10000;
-      }
-      else {
-        adminCost = Math.round(value * (parseInt(adminOption) / 100));
-      }
+  if (adminOption === "25000") adminCost = 25000;
+  else if (adminOption === "1") adminCost = Math.ceil(value / 1_000_000) * 10000;
+  else adminCost = Math.round(value * (parseInt(adminOption) / 100));
 
-      // Minimal admin = 10.000
-      adminCost = Math.max(adminCost, 10000);
+  adminCost = Math.max(adminCost, 10000);
 
-      // Asuransi
-      let asuransi = 10000;
+  let asuransi = 10000;
+  let tarif10 = Math.round(value * 0.10);
+  let totalAkhir = value - adminCost - asuransi - tarif10;
 
-      // Tarif 10% dari nominal awal
-      let tarif10 = Math.round(value * 0.10);
+  document.getElementById("ppa").textContent = formatRupiah(value);
+  document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
+  document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
+  document.getElementById("p11").textContent = formatRupiah(p11);
+  document.getElementById("p16").textContent = formatRupiah(p16);
+  document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
 
-      // Total akhir setelah pengurangan
-      let totalAkhir = value - adminCost - asuransi - tarif10;
+  document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
+  document.getElementById("asuransi").textContent = formatRupiah(asuransi);
+  document.getElementById("tarif10").textContent = formatRupiah(tarif10);
+  document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
+}
 
-      // Update Display
-      document.getElementById("ppa").textContent = formatRupiah(value);
-      document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
-      document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
-      document.getElementById("p11").textContent = formatRupiah(p11);
-      document.getElementById("p16").textContent = formatRupiah(p16);
-      document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
+function resetInput() {
+  document.getElementById("inputValue").value = "";
+  updateValue();
+}
 
-      // Update admin feature
-      document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
-      document.getElementById("asuransi").textContent = formatRupiah(asuransi);
-      document.getElementById("tarif10").textContent = formatRupiah(tarif10);
-      document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
-    }
-
-    function resetInput() {
-      document.getElementById("inputValue").value = "";
-      updateValue();
-    }
-
-    function add000() {
-      let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-      document.getElementById("inputValue").value = v + "000";
-      updateValue();
-    }
-  </script>
+function add000() {
+  let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+  document.getElementById("inputValue").value = v + "000";
+  updateValue();
+}
+</script>
 
 </body>
-</html>
+        </html>
