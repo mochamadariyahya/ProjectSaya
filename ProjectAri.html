@@ -1,341 +1,328 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS-ProjectONE</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS-ProjectONE</title>
 
-<style>
+  <style>
+    body {
+      color: black;
+      font-family: Arial, sans-serif;
+      background: #8A2BE2;
+      padding: 20px;
+      padding-left: 240px; /* AGAR KONTEN TIDAK TERTUTUP SIDEBAR */
+    }
 
-body {
-    margin: 0;
-    background: #8A2BE2;
-    font-family: Arial, sans-serif;
-}
+    /* SIDEBAR */
+    .sidebar {
+      width: 200px;
+      background: #4B0082;
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      border-right: 3px solid #6A0DAD;
+    }
 
-/* ================= SIDEBAR ================= */
-#sidebar {
-    width: 220px;
-    background: #222;
-    color: white;
-    padding: 16px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: transform .3s ease;
-}
-#sidebar.closed {
-    transform: translateX(-220px);
-}
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 20px;
+      text-align: center;
+    }
 
-.toggle-btn {
-    position: absolute;
-    top: 10px;
-    right: -40px;
-    background: #222;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+    .menu-item {
+      display: block;
+      padding: 12px;
+      margin-top: 10px;
+      background: #6A0DAD;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
 
-/* ================= WRAPPER KONTEN ================= */
-.content-wrapper {
-    margin-left: 220px; /* posisi normal ketika sidebar terbuka */
-    padding: 16px;
-    transition: margin-left .3s ease;
-}
+    .menu-item:hover {
+      background: #8A2BE2;
+    }
 
-.sidebar-closed .content-wrapper {
-    margin-left: 0;
-}
-
-/* ================= KOTAK FORM ================= */
-.container {
-    background: #fff;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: 600px;
-    margin: auto;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.row {
-    display: flex;
-    gap: 8px;
-    margin: 10px 0;
-}
-
-button {
-    padding: 10px 14px;
-    border: none;
-    background: #e5e7eb;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.box {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 14px;
-    margin-top: 12px;
-}
-
-.label {
-    font-size: 12px;
-    color: gray;
-}
-
-.value {
-    font-size: 20px;
-    margin-top: 6px;
-    font-weight: bold;
-}
-
-/* ================= KOTAK TANGGAL ================= */
-.date-container {
-    max-width: 600px;
-    margin: 20px auto;
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
-
-.date-box, .date-boxx {
-    margin-top: 12px;
+    /* KONTEN UTAMA */
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .date-box {
+    margin-top: 20px;
     background: #f0f3ff;
     padding: 12px;
     border-radius: 10px;
+    margin-bottom: 15px;
     border: 1px solid #dce2ff;
     font-size: 0.9rem;
+    }
+    .date-boxx {
+    margin-top: 20px;
+    background: #f0f3ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #dce2ff;
+    font-size: 0.9rem;
+    color: red;
+    }
+
+.date-row {
+    margin: 4px 0;
 }
-.date-boxx { color: red; }
-
-
-/* Responsive */
-@media (max-width: 768px) {
-    #sidebar {
-        transform: translateX(-220px);
+    h1 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      font-weight: bold;
     }
-    .content-wrapper {
-        margin-left: 0 !important;
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
-    .toggle-btn {
-        right: -50px;
+    .row {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0;
     }
-}
-
-</style>
+    button {
+      padding: 10px 14px;
+      border: none;
+      background: #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .box {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .label {
+      font-size: 12px;
+      color: gray;
+    }
+    .value {
+      font-size: 20px;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- ============= SIDEBAR ============= -->
-<div id="sidebar">
-    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-    <h2>MENU</h2>
-    <p>- Kalkulator Pinjaman</p>
-    <p>- Manajemen Data</p>
-    <p>- Profile</p>
-</div>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="ProjectAri.html" class="menu-item">Kalkulator CS</a>
+    <a href="kasir.html" class="menu-item">Kalkulator Kasir</a>
+  </div>
 
-<!-- ============= KONTEN UTAMA ============= -->
-<div class="content-wrapper" id="contentWrapper">
+  <div class="container">
+    <h1>
+      <span style="color:Chartreuse;">R</span><span style="color:BlueViolet;">G</span> Cibarusah Kota
+    </h1>
 
-    <div class="container">
-        <h1>
-          <span style="color:Chartreuse;">R</span><span style="color:BlueViolet;">G</span> Cibarusah Kota
-        </h1>
+    <label>Input Nilai Pinjaman</label>
+    <input id="inputValue" inputmode="numeric" pattern="[0-9]*" aria-label="nilai rupiah" placeholder="0" oninput="updateValue()"/>
 
-        <label>Input Nilai Pinjaman</label>
-        <input id="inputValue" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="updateValue()"/>
+    <label style="margin-top:12px; display:block;">Pilih Biaya Admin</label>
+    <select id="adminSelect" onchange="updateValue()">
+      <option value="1">1% (Hp,iP,Lptp)</option>
+      <option value="2">2% (iPad,Tblt,Mcbok,Kmra,Lptp-Gmng)</option>
+      <option value="3">3% (Pryktr,PS,Smrt Watch)</option>
+      <option value="25000">25.000 (TV DLL - Rp.500.000)</option>
+      <option value="5">5% (TV DLL + Rp. 500.000)</option>
+    </select>
 
-        <label style="margin-top:12px; display:block;">Pilih Biaya Admin</label>
-        <select id="adminSelect" onchange="updateValue()">
-          <option value="1">1% (Hp,iP,Lptp)</option>
-          <option value="2">2% (iPad,Tblt,Mcbok,Kmra,Lptp-Gmng)</option>
-          <option value="3">3% (Pryktr,PS,Smrt Watch)</option>
-          <option value="25000">25.000 (TV DLL - Rp.500.000)</option>
-          <option value="5">5% (TV DLL + Rp. 500.000)</option>
-        </select>
+    <div class="row">
+      <button onclick="resetInput()">Reset</button>
+      <button onclick="add000()">+000</button>
+    </div>
+    
+<!-- FIELD BARU (ADMIN, ASURANSI, TARIF 10%, TOTAL) -->
+    <div class="box">
+      <div class="label">Biaya Admin (minimal 10.000)</div>
+      <div class="value" style="color:#DCDCDC;" id="biayaAdmin">Rp0</div>
 
-        <div class="row">
-          <button onclick="resetInput()">Reset</button>
-          <button onclick="add000()">+000</button>
-        </div>
+      <div class="label" style="margin-top:10px;">Asuransi (Rp10.000)</div>
+      <div class="value" style="color:#DCDCDC;" id="asuransi">Rp10.000</div>
 
-        <div class="box">
-          <div class="label">Biaya Admin (minimal 10.000)</div>
-          <div class="value" id="biayaAdmin">Rp0</div>
+      <div class="label" style="margin-top:10px;">Tarif 10% dari Nominal</div>
+      <div class="value" style="color:#DCDCDC;" id="tarif10">Rp0</div>
 
-          <div class="label" style="margin-top:10px;">Asuransi (Rp10.000)</div>
-          <div class="value" id="asuransi">Rp10.000</div>
-
-          <div class="label" style="margin-top:10px;">Tarif 10% dari Nominal</div>
-          <div class="value" id="tarif10">Rp0</div>
-
-          <div class="label" style="margin-top:10px;">Total Bersihnya</div>
-          <div class="value" id="totalAkhir">Rp0</div>
-        </div>
-
-        <div class="box">
-          <div class="label">Jumlah Pinjaman</div>
-          <div class="value" id="ppa">Rp0</div>
-        </div>
-
-        <div class="box">
-          <div class="label">Diskon Tarif 50%</div>
-          <div class="value" id="p5">Rp0</div>
-
-          <div class="label" style="margin-top:10px;">Total Setelah Diskon</div>
-          <div class="value" id="minus5">Rp0</div>
-        </div>
-
-        <div class="box">
-          <div class="label">Perpanjang Normal (11%)</div>
-          <div class="value" id="p11">Rp0</div>
-        </div>
-
-        <div class="box">
-          <div class="label">Perpanjang Lewat Tempo (16%)</div>
-          <div class="value" id="p16">Rp0</div>
-        </div>
-
-        <div class="box">
-          <div class="label">Tebus Lewat Tempo (+10%)</div>
-          <div class="value" id="plus10">Rp0</div>
-        </div>
-
+      <div class="label" style="margin-top:10px;">Total Bersihnya</div>
+      <div class="value" id="totalAkhir">Rp0</div>
+    </div>
+    
+    <div class="box">
+      <div class="label">Jumlah Pinjaman</div>
+      <div class="value" id="ppa">Rp0</div>
     </div>
 
-    <!-- ============= TANGGAL DIPINDAH KE SINI ============= -->
-    <div class="date-container">
-        <h2>Informasi Tanggal</h2>
+<div class="date-box" id="dueDate30"></div>
+    <div class="date-box" id="dueDate3"></div>
+    <div class="box">
+      <div class="label">Diskon Tarif 50%</div>
+      <div class="value" style="color:#DCDCDC;" id="p5">Rp0</div>
 
-        <div class="date-box" id="dueDate30"></div>
-        <div class="date-box" id="dueDate3"></div>
-        <div class="date-boxx" id="dueDate45"></div>
+      <div class="label" style="margin-top:10px;">Total Setelah Diskon</div>
+      <div class="value" id="minus5">Rp0</div>
     </div>
 
-</div>
+    <div class="box">
+      <div class="label">Perpanjang Normal (11%)</div>
+      <div class="value" id="p11">Rp0</div>
+    </div>
 
+<div class="date-boxx" id="dueDate45"></div>
 
-<!-- ================= SCRIPT ================= -->
-<script>
-function toggleSidebar() {
-    let sidebar = document.getElementById("sidebar");
-    let content = document.getElementById("contentWrapper");
+    <div class="box">
+      <div class="label">Perpanjang Lewat Tempo (16%)</div>
+      <div class="value" id="p16">Rp0</div>
+    </div>
 
-    sidebar.classList.toggle("closed");
-    content.classList.toggle("sidebar-closed");
-}
+    <div class="box">
+      <div class="label">Tebus Lewat Tempo (+10%)</div>
+      <div class="value" id="plus10">Rp0</div>
+    </div>
 
-function formatTanggal(d) {
+    <footer>copyright by.ari</footer>
+  </div>
+
+  <script>
+    function formatTanggal(d) {
     return d.toLocaleDateString("id-ID", {
-        day: "2-digit", month: "long", year: "numeric"
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
     });
 }
 
 function loadDueDates() {
     let today = new Date();
 
-    let plus30 = new Date(today);
+    // +30 HARI
+    let plus30 = new Date();
     plus30.setDate(today.getDate() + 30);
-
-    let plus3 = new Date(today);
+    document.getElementById("dueDate30").innerHTML = `
+        <div class="date-row"><strong>Tanggal Transaksi: </strong> ${formatTanggal(today)}</div>
+        <div class="date-row"><strong>Tanggal Jatuh Tempo: </strong> ${formatTanggal(plus30)}</div>
+    `;
+  
+  // +3 HARI
+    let plus3 = new Date();
     plus3.setDate(today.getDate() + 3);
+    document.getElementById("dueDate3").innerHTML = `
+        <div class="date-row"><strong>Batas Diskon: </strong> ${formatTanggal(plus3)}</div>
+    `;
 
-    let plus45 = new Date(today);
+    // +45 HARI
+    let plus45 = new Date();
     plus45.setDate(today.getDate() + 45);
-
-    document.getElementById("dueDate30").innerHTML =
-        `<strong>Tanggal Transaksi:</strong> ${formatTanggal(today)}<br>
-         <strong>Jatuh Tempo:</strong> ${formatTanggal(plus30)}`;
-
-    document.getElementById("dueDate3").innerHTML =
-        `<strong>Batas Diskon:</strong> ${formatTanggal(plus3)}`;
-
-    document.getElementById("dueDate45").innerHTML =
-        `<strong>Batas Toleransi:</strong> ${formatTanggal(plus45)}`;
+    document.getElementById("dueDate45").innerHTML = `
+        <div class="date-row"><stron>Batas Toleransi: </strong> ${formatTanggal(plus45)}</div>
+    `;
 }
+
 window.onload = loadDueDates;
+    document.getElementById("inputValue").addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
 
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(angka);
+    }
 
-/* ==== PERHITUNGAN (sama seperti sebelumnya) ==== */
+    function updateValue() {
+      let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      if (raw === "") raw = "0";
 
-document.getElementById("inputValue").addEventListener("input", function () {
-  this.value = this.value.replace(/[^0-9]/g, "");
-});
+      let value = parseInt(raw);
+      let adminOption = document.getElementById("adminSelect").value;
 
-function formatRupiah(angka) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(angka);
-}
+      // Hitungan 1% minimal 5000 (untuk perpanjang)
+      let satuPersen = Math.max(Math.round(value * 0.01), 5000);
+      let p11 = Math.round(value * 0.10) + satuPersen;
+      let p16 = Math.round(value * 0.15) + satuPersen;
 
-function updateValue() {
-  let raw = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-  if (raw === "") raw = "0";
+      // ========= FITUR ADMIN BARU =========
+      let adminCost = 0;
 
-  let value = parseInt(raw);
-  let adminOption = document.getElementById("adminSelect").value;
+      if (adminOption === "25000") {
+        adminCost = 25000;
+      }
+      else if (adminOption === "1") {
+        // Admin 1% PER JUTA dibulatkan ke atas (10.000 per 1 juta)
+        let juta = Math.ceil(value / 1000000);
+        adminCost = juta * 10000;
+      }
+      else {
+        adminCost = Math.round(value * (parseInt(adminOption) / 100));
+      }
 
-  let satuPersen = Math.max(Math.round(value * 0.01), 5000);
-  let p11 = Math.round(value * 0.10) + satuPersen;
-  let p16 = Math.round(value * 0.15) + satuPersen;
+      // Minimal admin = 10.000
+      adminCost = Math.max(adminCost, 10000);
 
-  let adminCost = 0;
+      // Asuransi
+      let asuransi = 10000;
 
-  if (adminOption === "25000") adminCost = 25000;
-  else if (adminOption === "1") {
-    let juta = Math.ceil(value / 1000000);
-    adminCost = juta * 10000;
-  } 
-  else adminCost = Math.round(value * (parseInt(adminOption) / 100));
+      // Tarif 10% dari nominal awal
+      let tarif10 = Math.round(value * 0.10);
 
-  adminCost = Math.max(adminCost, 10000);
+      // Total akhir setelah pengurangan
+      let totalAkhir = value - adminCost - asuransi - tarif10;
 
-  let asuransi = 10000;
-  let tarif10 = Math.round(value * 0.10);
-  let totalAkhir = value - adminCost - asuransi - tarif10;
+      // Update Display
+      document.getElementById("ppa").textContent = formatRupiah(value);
+      document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
+      document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
+      document.getElementById("p11").textContent = formatRupiah(p11);
+      document.getElementById("p16").textContent = formatRupiah(p16);
+      document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
 
-  document.getElementById("ppa").textContent = formatRupiah(value);
-  document.getElementById("p5").textContent = formatRupiah(Math.round(value * 0.05));
-  document.getElementById("minus5").textContent = formatRupiah(Math.round(value * 0.95));
-  document.getElementById("p11").textContent = formatRupiah(p11);
-  document.getElementById("p16").textContent = formatRupiah(p16);
-  document.getElementById("plus10").textContent = formatRupiah(Math.round(value * 1.10));
+      // Update admin feature
+      document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
+      document.getElementById("asuransi").textContent = formatRupiah(asuransi);
+      document.getElementById("tarif10").textContent = formatRupiah(tarif10);
+      document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
+    }
 
-  document.getElementById("biayaAdmin").textContent = formatRupiah(adminCost);
-  document.getElementById("asuransi").textContent = formatRupiah(asuransi);
-  document.getElementById("tarif10").textContent = formatRupiah(tarif10);
-  document.getElementById("totalAkhir").textContent = formatRupiah(totalAkhir);
-}
+    function resetInput() {
+      document.getElementById("inputValue").value = "";
+      updateValue();
+    }
 
-function resetInput() {
-  document.getElementById("inputValue").value = "";
-  updateValue();
-}
-
-function add000() {
-  let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
-  document.getElementById("inputValue").value = v + "000";
-  updateValue();
-}
-
-</script>
+    function add000() {
+      let v = document.getElementById("inputValue").value.replace(/[^0-9]/g, "");
+      document.getElementById("inputValue").value = v + "000";
+      updateValue();
+    }
+  </script>
 
 </body>
 </html>
