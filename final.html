@@ -229,7 +229,7 @@ h2 {
   <div class="brankas-box">
     <label>Nominal Brankas</label>
     <input type="number" style="width: 280px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
-  <button style="width: 60px; onclick="return confirmReset()" class="btn-reset">Reset</button>
+  <button style="width: 60px;" onclick="return confirmReset()" class="btn-reset">Reset</button>
   </div>
 
   <!-- INPUT UANG KASIR -->
@@ -258,7 +258,7 @@ function toggleSidebar() {
 
 /* KALKULATOR */
 function confirmReset() {
-  if (confirm('Yakin ingin reset?')) resetAll();
+  if (confirm('Yakin ingin reset semuanya:( ???')) resetAll();
   return false;
 }
 
