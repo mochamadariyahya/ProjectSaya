@@ -228,17 +228,17 @@ h2 {
   <!-- INPUT BRANKAS -->
   <div class="brankas-box">
     <label>Nominal Brankas</label>
-    <input type="number" style="width: 280px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
+    <input type="number" style="width: 320px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
   <button style="width: 80px;" onclick="return confirmReset()" class="btn-reset">Reset</button>
-    <span style="color:#8A2BE2;" id="totalBrankas">Rp 0</span>
+  <span style="color:#8A2BE2;">Rp. <span style="color:#8A2BE2;" id="totalBrankas">0</span></span>
   </div>
 
   <!-- INPUT UANG KASIR -->
   <div id="inputs"></div>
 
   <div class="total-box">
-    <span style="color: black;" id="totalKasir">Total Kasir: Rp 0</span><br>
-    <span style="color:#8A2BE2;" id="totalBrankas">Total Brankas: Rp 0</span><br><br>
+    <span style="color:black;">Total Kasir: Rp. <span id="totalKasir">0</span></span><br>
+    <span style="color:#8A2BE2;" id="totalBrankas">Total Brankas: Rp. <span id="totalBrankas">0</span></span><br><br>
     <span id="grandTotal">Total Semua: Rp 0</span>
   </div>
 
