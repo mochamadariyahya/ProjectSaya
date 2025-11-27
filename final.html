@@ -238,7 +238,7 @@ h2 {
 
   <div class="total-box">
     <span style="color:black;">Total Kasir: Rp. <span id="totalKasir">0</span></span><br>
-    <span style="color:#8A2BE2;" id="totalBrankas">Total Brankas: Rp. <span id="totalBrankas">0</span></span><br><br>
+    <span style="color:#8A2BE2;">Total Brankas: Rp. <span id="totalBrankas2">0</span></span><br><br>
     <span id="grandTotal">Total Semua: Rp 0</span>
   </div>
 
@@ -298,6 +298,7 @@ function calculate() {
 
   document.getElementById("totalKasir").textContent = formatRupiah(totalKasir);
   document.getElementById("totalBrankas").textContent = formatRupiah(brankas);
+  document.getElementById("totalBrankas2").textContent = formatRupiah(brankas);
   document.getElementById("grandTotal").textContent = formatRupiah(totalKasir + brankas);
 }
 
