@@ -153,9 +153,9 @@ h2 {
   transform: scale(1.05);
 }
 
-.total {
+.total-box {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 18px;
   margin-top: 15px;
   text-align: right;
   color: #2c7a7b;
@@ -178,10 +178,29 @@ h2 {
   background: #d62839;
 }
 
-@media (max-width: 480px) {
-  .row { padding: 10px; }
-  .row input { width: 55px; font-size: 15px; }
-  .total { font-size: 19px; }
+/* BOX BRANKAS */
+.brankas-box {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f3e8ff;
+  border: 2px solid #c084fc;
+  margin-bottom: 20px;
+}
+
+.brankas-box label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #6b21a8;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.brankas-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #c084fc;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -204,15 +223,26 @@ h2 {
 
 <!-- KONTEN UTAMA -->
 <div class="container">
-  <h2>Kasir <span style=" color:#8A2BE2;">R</span><span style=" color:#7FFF00;">G</span> Cibarusah Kota</h2>
+  <h2>Kasir <span style="color:#8A2BE2;">R</span><span style="color:#7FFF00;">G</span> Cibarusah Kota</h2>
 
-  <div id="inputs"></div>
-
-  <div class="total">
-      Total: <span id="grandTotal">Rp 0</span>
+  <!-- INPUT BRANKAS -->
+  <div class="brankas-box">
+    <label>Nominal Brankas</label>
+    <input type="number" style="width: 352px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
+  <button style="width: 80px;" onclick="return confirmReset()" class="btn-reset">Reset</button>
+  <span style="color:#8A2BE2;">Nominal: <span style="color:#8A2BE2;" id="totalBrankas">0</span></span>
   </div>
 
-  <button onclick="return confirmReset()" class="btn-reset">Reset</button>
+  <!-- INPUT UANG KASIR -->
+  <div id="inputs"></div>
+
+  <div class="total-box">
+    <span style="color:black;">Total Kasir: <span id="totalKasir">0</span></span><br>
+    <span style="color:#8A2BE2;">Total Brankas: <span id="totalBrankas2">0</span></span><br><br>
+    <span id="grandTotal">Total Semua: </span>
+  </div>
+
+  
 
   <br><footer style="color: gray">copyright by.ari</footer>
 </div>
@@ -227,59 +257,64 @@ function toggleSidebar() {
   blur.classList.toggle("active");
 }
 
-/* KALKULATOR SCRIPT */
+/* KALKULATOR */
 function confirmReset() {
-  if (confirm('Yakin Ek Dihapus?')) {
-      resetAll();
-  }
+  if (confirm('Yakin ingin reset semuanya:( ???')) resetAll();
   return false;
 }
 
 const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
 const container = document.getElementById("inputs");
 
-function formatRupiah(amount) {
-  return "Rp " + amount.toLocaleString("id-ID");
+function formatRupiah(nominal) {
+  return "Rp " + nominal.toLocaleString("id-ID");
 }
 
+/* Generate input kasir */
 denominations.forEach(value => {
   const row = document.createElement("div");
   row.className = "row";
 
   row.innerHTML = `
-      <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
-      <input type="number" id="qty-${value}" placeholder="0" min="0"
-             oninput="this.value=this.value.replace(/^0+/, '')">
-      <span id="total-${value}">Rp 0</span>
+    <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
+    <input type="number" id="qty-${value}" placeholder="0" min="0" oninput="calculate()">
+    <span id="total-${value}">Rp 0</span>
   `;
   container.appendChild(row);
 });
 
 function calculate() {
-  let grandTotal = 0;
+  let totalKasir = 0;
 
   denominations.forEach(value => {
-      const raw = document.getElementById(`qty-${value}`).value;
-      const qty = parseInt(raw) || 0;
-      const total = qty * value;
-
-      document.getElementById(`total-${value}`).textContent = formatRupiah(total);
-      grandTotal += total;
+    const raw = document.getElementById(`qty-${value}`).value;
+    const qty = parseInt(raw) || 0;
+    const subtotal = qty * value;
+    totalKasir += subtotal;
+    document.getElementById(`total-${value}`).textContent = formatRupiah(subtotal);
   });
 
-  document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
+  const brankas = parseInt(document.getElementById("brankasInput").value) || 0;
+
+  document.getElementById("totalKasir").textContent = formatRupiah(totalKasir);
+  document.getElementById("totalBrankas").textContent = formatRupiah(brankas);
+  document.getElementById("totalBrankas2").textContent = formatRupiah(brankas);
+  document.getElementById("grandTotal").textContent = formatRupiah(totalKasir + brankas);
 }
 
 function resetAll() {
+  document.getElementById("brankasInput").value = "";
+  document.getElementById("totalBrankas").textContent = "Rp 0";
+  document.getElementById("totalBrankas2").textContent = "Rp 0";
+
   denominations.forEach(value => {
-      document.getElementById(`qty-${value}`).value = "";
-      document.getElementById(`total-${value}`).textContent = "Rp 0";
+    document.getElementById(`qty-${value}`).value = "";
+    document.getElementById(`total-${value}`).textContent = "Rp 0";
   });
 
+  document.getElementById("totalKasir").textContent = "Rp 0";
   document.getElementById("grandTotal").textContent = "Rp 0";
 }
-
-container.addEventListener("input", calculate);
 </script>
 
 </body>
