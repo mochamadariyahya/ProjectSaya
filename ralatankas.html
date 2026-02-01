@@ -55,6 +55,58 @@
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script>
+  function downloadExcel() {
+  if (dataTransaksi.length === 0) {
+    alert("Belum ada data transaksi!");
+    return;
+  }
+
+  // Header bagian atas dengan array of array
+  const ws_data = [];
+
+  // Header info perusahaan dan judul dokumen
+  ws_data.push([]);
+  ws_data.push([]);
+  ws_data.push(['', '', 'PT. AMANAH TERIMA GADAI']);
+  ws_data.push(['', 'BUKTI PENGELUARAN KAS KECIL', '', '', '', 'JANUARI 2026']);
+  ws_data.push(['NO', 'KETERANGAN', '', 'Tanggal', 'Nilai', 'Cash']);
+
+  // Konversi data transaksi ke format baris excel
+  dataTransaksi.forEach((item, index) => {
+    ws_data.push([
+      index + 1,
+      item.keterangan,
+      '',
+      new Date(item.tanggal),   // pakai objek Date untuk "Tanggal"
+      item.nilai,
+      ''
+    ]);
+  });
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+  // Set lebar kolom agar auto fix sesuai contoh
+  ws['!cols'] = [
+    { wch: 5 },   // NO kecil
+    { wch: 60 },  // KETERANGAN lebih lebar, sesuai contoh
+    { wch: 5 },   // Kolom kosong kecil
+    { wch: 15 },  // Tanggal, cukup untuk tanggal format
+    { wch: 15 },  // Nilai, cukup untuk angka besar
+    { wch: 10 }   // Cash, bisa disesuaikan
+  ];
+
+  // Format kolom tanggal pada kolom D (nomor 3 index)
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  for(let R = 6; R <= range.e.r; ++R){ // data dari baris 7 (0-based = 6)
+    let cell_address = {c:3, r:R};
+    let cell_ref = XLSX.utils.encode_cell(cell_address);
+    if(ws[cell_ref]) ws[cell_ref].z = XLSX.SSF.get_table()[14]; // format tanggal "m/d/yy"
+  }
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, 'Bukti_Pengeluaran_Kas_Kecil.xlsx');
+  }
   let dataTransaksi = [];
 
   function tambahData() {
