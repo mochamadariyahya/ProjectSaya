@@ -83,9 +83,9 @@ PT. AMANAH TERIMA GADAI - Bukti Pengeluaran Kas Kecil
   // Header info perusahaan dan judul dokumen
   ws_data.push([]);
   ws_data.push([]);
-  ws_data.push(['PT. AMANAH TERIMA GADAI']);
-  ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', '249', 'JANUARI 2026']);
-  ws_data.push(['NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
+  ws_data.push(['' ,'PT. AMANAH TERIMA GADAI']);
+  ws_data.push(['' , 'BUKTI PENGELUARAN KAS KECIL', '', '', '249', 'JANUARI 2026']);
+  ws_data.push(['' , 'NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
 
   // Konversi data transaksi ke format baris excel
   dataTransaksi.forEach((item, index) => {
@@ -179,11 +179,11 @@ PT. AMANAH TERIMA GADAI - Bukti Pengeluaran Kas Kecil
     // Header bagian atas
     ws_data.push([]);
     ws_data.push([]);
-    ws_data.push(['PT. AMANAH TERIMA GADAI']);
+    ws_data.push(['' ,'PT. AMANAH TERIMA GADAI']);
     // Baris judul
-    ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', '249', 'JANUARI 2026']);
+    ws_data.push(['' ,'BUKTI PENGELUARAN KAS KECIL', '', '', '249', 'JANUARI 2026']);
     // Baris header tabel
-    ws_data.push(['NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
+    ws_data.push(['' ,'NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
 
     // Data transaksi: sesuaikan format kolom dengan gambar
     dataTransaksi.forEach((item, index) => {
