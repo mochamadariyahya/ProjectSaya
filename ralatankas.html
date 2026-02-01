@@ -20,20 +20,36 @@
 </head>
 <body>
 
-<h2>PT. AMANAH TERIMA GADAI - Bukti Pengeluaran Kas Kecil</h2>
+<h2 style="background-color: purple;">
+  <b>
+PT. AMANAH TERIMA GADAI - Bukti Pengeluaran Kas Kecil
+</b>
+</h2>
 
 <div class="input-group">
-  <label for="keterangan">Keterangan:</label>
+  <label for="keterangan">
+    <b>
+      Keterangan:
+    </b>
+    </label>
   <input type="text" id="keterangan" placeholder="Masukkan keterangan" />
 </div>
 
 <div class="input-group">
-  <label for="tanggal">Tanggal:</label>
+  <label for="tanggal">
+    <b>
+      Tanggal:
+    </b>
+  </label>
   <input type="date" id="tanggal" />
 </div>
 
 <div class="input-group">
-  <label for="nilai">Nilai (Rp):</label>
+  <label for="nilai">
+    <b>
+      Nilai (Rp):
+    </b>
+  </label>
   <input type="number" id="nilai" placeholder="Masukkan nilai transaksi" />
 </div>
 
@@ -67,9 +83,9 @@
   // Header info perusahaan dan judul dokumen
   ws_data.push([]);
   ws_data.push([]);
-  ws_data.push(['', '', 'PT. AMANAH TERIMA GADAI']);
-  ws_data.push(['', 'BUKTI PENGELUARAN KAS KECIL', '', '', '', 'JANUARI 2026']);
-  ws_data.push(['NO', 'KETERANGAN', '', 'Tanggal', 'Nilai', 'Cash']);
+  ws_data.push(['PT. AMANAH TERIMA GADAI']);
+  ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', '249', 'JANUARI 2026']);
+  ws_data.push(['NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
 
   // Konversi data transaksi ke format baris excel
   dataTransaksi.forEach((item, index) => {
@@ -163,11 +179,11 @@
     // Header bagian atas
     ws_data.push([]);
     ws_data.push([]);
-    ws_data.push(['', '', 'PT. AMANAH TERIMA GADAI']);
+    ws_data.push(['PT. AMANAH TERIMA GADAI']);
     // Baris judul
-    ws_data.push(['', 'BUKTI PENGELUARAN KAS KECIL', '', '', '', 'JANUARI 2026']);
+    ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', '', 'JANUARI 2026']);
     // Baris header tabel
-    ws_data.push(['NO', 'KETERANGAN', '', 'Tanggal', 'Nilai', 'Cash']);
+    ws_data.push(['NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']);
 
     // Data transaksi: sesuaikan format kolom dengan gambar
     dataTransaksi.forEach((item, index) => {
