@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Input Transaksi dan Export Excel</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  h2 { color: purple; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+  th { background-color: #f0f0f0; }
+  .header-purple { background-color: #5A2A9A; color: white; font-weight: bold; text-align: center; }
+  .header-green { background-color: #8DC63F; color: black; font-weight: bold; text-align: center; }
+  input, button { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+  .input-group { max-width: 400px; margin-bottom: 15px; }
+  button { width: auto; background-color: #5A2A9A; color: white; border: none; cursor: pointer; }
+  button:hover { background-color: #3f1d6e; }
+</style>
+</head>
+<body>
+
+<h2>PT. AMANAH TERIMA GADAI - Bukti Pengeluaran Kas Kecil</h2>
+
+<div class="input-group">
+  <label for="keterangan">Keterangan:</label>
+  <input type="text" id="keterangan" placeholder="Masukkan keterangan" />
+</div>
+
+<div class="input-group">
+  <label for="tanggal">Tanggal:</label>
+  <input type="date" id="tanggal" />
+</div>
+
+<div class="input-group">
+  <label for="nilai">Nilai (Rp):</label>
+  <input type="number" id="nilai" placeholder="Masukkan nilai transaksi" />
+</div>
+
+<button onclick="tambahData()">Tambah Data</button>
+
+<table id="tabelData">
+  <thead>
+    <tr>
+      <th>NO</th>
+      <th>KETERANGAN</th>
+      <th>TANGGAL</th>
+      <th>NILAI</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<button onclick="downloadExcel()">Download Excel</button>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+  let dataTransaksi = [];
+
+  function tambahData() {
+    const keterangan = document.getElementById('keterangan').value.trim();
+    const tanggal = document.getElementById('tanggal').value;
+    const nilai = document.getElementById('nilai').value;
+
+    if (!keterangan || !tanggal || !nilai) {
+      alert('Silakan isi semua data!');
+      return;
+    }
+
+    dataTransaksi.push({
+      keterangan,
+      tanggal,
+      nilai: parseInt(nilai),
+    });
+
+    renderTable();
+    clearInput();
+  }
+
+  function clearInput() {
+    document.getElementById('keterangan').value = '';
+    document.getElementById('tanggal').value = '';
+    document.getElementById('nilai').value = '';
+  }
+
+  function renderTable() {
+    const tbody = document.querySelector('#tabelData tbody');
+    tbody.innerHTML = '';
+
+    dataTransaksi.forEach((item, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${item.keterangan}</td>
+        <td>${item.tanggal}</td>
+        <td>${item.nilai.toLocaleString('id-ID')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function downloadExcel() {
+    if (dataTransaksi.length === 0) {
+      alert("Belum ada data transaksi!");
+      return;
+    }
+
+    // Buat worksheet data sesuai template di gambar
+    const ws_data = [];
+
+    // Header bagian atas
+    ws_data.push([]);
+    ws_data.push([]);
+    ws_data.push(['', '', 'PT. AMANAH TERIMA GADAI']);
+    // Baris judul
+    ws_data.push(['', 'BUKTI PENGELUARAN KAS KECIL', '', '', '', 'JANUARI 2026']);
+    // Baris header tabel
+    ws_data.push(['NO', 'KETERANGAN', '', 'Tanggal', 'Nilai', 'Cash']);
+
+    // Data transaksi: sesuaikan format kolom dengan gambar
+    dataTransaksi.forEach((item, index) => {
+      ws_data.push([
+        index + 1,
+        item.keterangan,
+        '',
+        formatDate(item.tanggal),
+        item.nilai,
+        ''
+      ]);
+    });
+
+    // Buat workbook dan worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+    // Styling sederhana (optional)
+    // NOTE: XLSX js library styling terbatas, styling eksklusif seperti warna sel perlu libraries lain
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'Bukti_Pengeluaran_Kas_Kecil.xlsx');
+  }
+
+  // Helper format tanggal dari yyyy-mm-dd ke d/m/yyyy seperti di gambar
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const d = date.getDate();
+    const m = date.getMonth() + 1;
+    const y = date.getFullYear();
+    return `${d}/${m}/${y}`;
+  }
+</script>
+
+</body>
+</html>
