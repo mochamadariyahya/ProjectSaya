@@ -112,8 +112,8 @@
     ws_data.push([]); // Baris 1 kosong
     ws_data.push([]); // Baris 2 kosong
     ws_data.push(['PT. AMANAH TERIMA GADAI']); // Baris 3: PT name, akan di-merge A3:F3
-    ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', '', 'JANUARI 2026']); // Baris 4: Judul, akan di-merge A4:E4, F4 terpisah
-    ws_data.push(['NO', 'KETERANGAN', '', 'Tanggal', 'Nilai', 'Cash']); // Baris 5: Header tabel
+    ws_data.push(['BUKTI PENGELUARAN KAS KECIL', '', '', '', 'JANUARI 2026']); // Baris 4: Judul, akan di-merge A4:E4, F4 terpisah
+    ws_data.push(['NO', 'KETERANGAN', 'Tanggal', 'Nilai', 'Cash']); // Baris 5: Header tabel
 
     // Konversi data transaksi ke format baris excel
     dataTransaksi.forEach((item, index) => {
@@ -142,8 +142,8 @@
 
     // Merge cells untuk colspan
     ws['!merges'] = [
-      { s: { r: 2, c: 0 }, e: { r: 2, c: 5 } }, // Merge A3:F3 untuk PT name
-      { s: { r: 3, c: 0 }, e: { r: 3, c: 4 } }  // Merge A4:E4 untuk judul bukti
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 4 } }, // Merge A3:F3 untuk PT name
+      { s: { r: 3, c: 0 }, e: { r: 3, c: 3 } }  // Merge A4:E4 untuk judul bukti
     ];
 
     // Styling untuk warna background dan teks
