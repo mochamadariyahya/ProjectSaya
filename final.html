@@ -1,321 +1,396 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator Kasir</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joki ML - Jasa Joki Mobile Legends</title>
 
-<style>
-/* ---------------- SIDEBAR ---------------- */
-.sidebar-toggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: #4B0082;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1100;
-  font-size: 18px;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-.sidebar {
-  width: 220px;
-  background: #4B0082;
-  color: white;
-  position: fixed;
-  top: 0;
-  left: -220px;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  transition: 0.3s ease;
-  z-index: 1200;
-  border-right: 3px solid #6A0DAD;
-}
+    body {
+      background: #0b1020;
+      color: white;
+    }
 
-.sidebar.active {
-  left: 0;
-}
+    header {
+      background: linear-gradient(135deg, #111936, #171f46);
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-.close-btn {
-  background: transparent;
-  color: white;
-  border: none;
-  font-size: 22px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffc107;
+    }
 
-.menu-item {
-  display: block;
-  padding: 12px;
-  margin-top: 10px;
-  background: #6A0DAD;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 15px;
-  transition: 0.2s;
-}
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 14px;
+    }
 
-.menu-item:hover {
-  background: #8A2BE2;
-}
+    nav a:hover {
+      color: #ffc107;
+    }
 
-/* BLUR OVERLAY */
-.blur-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  display: none;
-}
+    .hero {
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      padding: 60px 8%;
+      background:
+        radial-gradient(circle at 80% 30%, #293b91 0, transparent 35%),
+        linear-gradient(135deg, #0b1020, #111936);
+    }
 
-.blur-overlay.active {
-  display: block;
-}
+    .hero-content {
+      max-width: 650px;
+    }
 
-/* ---------------- KALKULATOR STYLE ---------------- */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: #8A2BE2;
-  padding: 10px;
-  margin: 0;
-}
+    .hero h1 {
+      font-size: 52px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
 
-.container {
-  background: #ffffff;
-  padding: 15px;
-  max-width: 430px;
-  margin: auto;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border-radius: 12px;
-  animation: fadeIn 0.5s ease;
-}
+    .hero h1 span {
+      color: #ffc107;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    .hero p {
+      color: #b9c0d4;
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
+    .btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 14px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: .3s;
+    }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f9fafc;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #e2e6ea;
-  transition: 0.25s;
-}
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(37,211,102,.25);
+    }
 
-.row:hover {
-  background: #eef2f6;
-  transform: scale(1.02);
-}
+    section {
+      padding: 70px 8%;
+    }
 
-.left {
-  font-size: 16px;
-  font-weight: 500;
-  width: 50%;
-}
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-.row input {
-  width: 65px;
-  padding: 7px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  text-align: center;
-  font-size: 16px;
-  transition: 0.2s;
-}
+    .section-title h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
 
-.row input:focus {
-  border-color: #2b8df0;
-  box-shadow: 0 0 6px rgba(45,123,255,0.6);
-  transform: scale(1.05);
-}
+    .section-title p {
+      color: #9da6bd;
+    }
 
-.total-box {
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 15px;
-  text-align: right;
-  color: #2c7a7b;
-}
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-.btn-reset {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  font-size: 16px;
-  background: #e63946;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
+    .card {
+      background: #151c35;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #252e50;
+      transition: .3s;
+    }
 
-.btn-reset:hover {
-  background: #d62839;
-}
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: #ffc107;
+    }
 
-/* BOX BRANKAS */
-.brankas-box {
-  padding: 12px;
-  border-radius: 10px;
-  background: #f3e8ff;
-  border: 2px solid #c084fc;
-  margin-bottom: 20px;
-}
+    .card h3 {
+      color: #ffc107;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
 
-.brankas-box label {
-  font-weight: bold;
-  font-size: 16px;
-  color: #6b21a8;
-  display: block;
-  margin-bottom: 8px;
-}
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
 
-.brankas-box input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #c084fc;
-  font-size: 16px;
-}
-</style>
+    .card ul {
+      list-style: none;
+      color: #b9c0d4;
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    .order-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background: #ffc107;
+      color: #111;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      text-align: center;
+      background: #11172c;
+      padding: 30px 20px;
+      border-radius: 15px;
+    }
+
+    .feature .icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #9da6bd;
+      line-height: 1.6;
+    }
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(135deg, #151e43, #202c63);
+    }
+
+    .cta h2 {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: #b9c0d4;
+      margin-bottom: 25px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #7f89a3;
+      background: #080c18;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 50px 5%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      section {
+        padding: 50px 5%;
+      }
+
+      .packages,
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- TOMBOL SIDEBAR -->
-<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <header>
+    <div class="logo">JOKI ML</div>
 
-<!-- SIDEBAR -->
-<div id="sidebar" class="sidebar">
-  <button class="close-btn" onclick="toggleSidebar()">✕</button>
+    <nav>
+      <a href="#layanan">Layanan</a>
+      <a href="#keunggulan">Keunggulan</a>
+      <a href="#order">Order</a>
+    </nav>
+  </header>
 
-  <a href="ProjectSaya.html" style="margin-top:30px;" class="menu-item">Kalkulator CS</a>
-  <a href="kasir.html" class="menu-item">Kalkulator Kasir</a>
-</div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Push Rank ML <span>Cepat & Aman</span></h1>
 
-<!-- OVERLAY -->
-<div id="blurOverlay" class="blur-overlay" onclick="toggleSidebar()"></div>
+      <p>
+        Jasa joki Mobile Legends dengan proses profesional,
+        harga terjangkau, dan pelayanan cepat.
+      </p>
 
-<!-- KONTEN UTAMA -->
-<div class="container">
-  <h2>Kasir <span style="color:#8A2BE2;">R</span><span style="color:#7FFF00;">G</span> Cibarusah Kota</h2>
+      <a
+        href="https://wa.me/6283183126658?text=Halo%2C%20saya%20ingin%20order%20joki%20ML"
+        target="_blank"
+        class="btn">
+        💬 Order via WhatsApp
+      </a>
+    </div>
+  </section>
 
-  <!-- INPUT BRANKAS -->
-  <div class="brankas-box">
-    <label>Nominal Brankas</label>
-    <input type="number" style="width: 352px;" id="brankasInput" placeholder="Masukkan nominal..." oninput="calculate()">
-  <button style="width: 80px;" onclick="return confirmReset()" class="btn-reset">Reset</button>
-  <span style="color:#8A2BE2;">Nominal: <span style="color:#8A2BE2;" id="totalBrankas">0</span></span>
-  </div>
+  <section id="layanan">
+    <div class="section-title">
+      <h2>Paket Joki ML</h2>
+      <p>Pilih layanan sesuai kebutuhan kamu</p>
+    </div>
 
-  <!-- INPUT UANG KASIR -->
-  <div id="inputs"></div>
+    <div class="packages">
 
-  <div class="total-box">
-    <span style="color:black;">Total Kasir: <span id="totalKasir">0</span></span><br>
-    <span style="color:#8A2BE2;">Total Brankas: <span id="totalBrankas2">0</span></span><br><br>
-    <span id="grandTotal">Total Semua: </span>
-  </div>
+      <div class="card">
+        <h3>Joki Rank</h3>
+        <div class="price">Rp10.000</div>
 
-  
+        <ul>
+          <li>✓ Push Rank</li>
+          <li>✓ Proses cepat</li>
+          <li>✓ Update progress</li>
+          <li>✓ Bisa request hero</li>
+        </ul>
 
-  <br><footer style="color: gray">copyright by.ari</footer>
-</div>
+        <a
+          class="order-btn"
+          href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20order%20Joki%20Rank"
+          target="_blank">
+          Pesan Sekarang
+        </a>
+      </div>
 
-<script>
-/* SIDEBAR SCRIPT */
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const blur = document.getElementById("blurOverlay");
+      <div class="card">
+        <h3>Joki Bintang</h3>
+        <div class="price">Rp15.000</div>
 
-  sidebar.classList.toggle("active");
-  blur.classList.toggle("active");
-}
+        <ul>
+          <li>✓ Push Star</li>
+          <li>✓ Proses cepat</li>
+          <li>✓ Update progress</li>
+          <li>✓ Bisa request hero</li>
+        </ul>
 
-/* KALKULATOR */
-function confirmReset() {
-  if (confirm('Yakin ingin reset semuanya:( ???')) resetAll();
-  return false;
-}
+        <a
+          class="order-btn"
+          href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20order%20Joki%20Bintang"
+          target="_blank">
+          Pesan Sekarang
+        </a>
+      </div>
 
-const denominations = [100000, 50000, 20000, 10000, 5000, 1000, 500];
-const container = document.getElementById("inputs");
+      <div class="card">
+        <h3>Custom</h3>
+        <div class="price">Chat Admin</div>
 
-function formatRupiah(nominal) {
-  return "Rp " + nominal.toLocaleString("id-ID");
-}
+        <ul>
+          <li>✓ Sesuai kebutuhan</li>
+          <li>✓ Harga nego</li>
+          <li>✓ Request target</li>
+          <li>✓ Konsultasi gratis</li>
+        </ul>
 
-/* Generate input kasir */
-denominations.forEach(value => {
-  const row = document.createElement("div");
-  row.className = "row";
+        <a
+          class="order-btn"
+          href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20tanya%20joki%20ML%20Custom"
+          target="_blank">
+          Chat Admin
+        </a>
+      </div>
 
-  row.innerHTML = `
-    <div class="left">Rp ${value.toLocaleString("id-ID")}</div>
-    <input type="number" id="qty-${value}" placeholder="0" min="0" oninput="calculate()">
-    <span id="total-${value}">Rp 0</span>
-  `;
-  container.appendChild(row);
-});
+    </div>
+  </section>
 
-function calculate() {
-  let totalKasir = 0;
+  <section id="keunggulan">
+    <div class="section-title">
+      <h2>Kenapa Pilih Kami?</h2>
+      <p>Pelayanan yang kami prioritaskan untuk pelanggan</p>
+    </div>
 
-  denominations.forEach(value => {
-    const raw = document.getElementById(`qty-${value}`).value;
-    const qty = parseInt(raw) || 0;
-    const subtotal = qty * value;
-    totalKasir += subtotal;
-    document.getElementById(`total-${value}`).textContent = formatRupiah(subtotal);
-  });
+    <div class="features">
 
-  const brankas = parseInt(document.getElementById("brankasInput").value) || 0;
+      <div class="feature">
+        <div class="icon">⚡</div>
+        <h3>Proses Cepat</h3>
+        <p>
+          Order diproses secepat mungkin sesuai antrean.
+        </p>
+      </div>
 
-  document.getElementById("totalKasir").textContent = formatRupiah(totalKasir);
-  document.getElementById("totalBrankas").textContent = formatRupiah(brankas);
-  document.getElementById("totalBrankas2").textContent = formatRupiah(brankas);
-  document.getElementById("grandTotal").textContent = formatRupiah(totalKasir + brankas);
-}
+      <div class="feature">
+        <div class="icon">🔒</div>
+        <h3>Aman</h3>
+        <p>
+          Data pelanggan dijaga dan tidak disebarluaskan.
+        </p>
+      </div>
 
-function resetAll() {
-  document.getElementById("brankasInput").value = "";
-  document.getElementById("totalBrankas").textContent = "Rp 0";
-  document.getElementById("totalBrankas2").textContent = "Rp 0";
+      <div class="feature">
+        <div class="icon">💬</div>
+        <h3>Fast Response</h3>
+        <p>
+          Admin siap membantu menjawab pertanyaan pelanggan.
+        </p>
+      </div>
 
-  denominations.forEach(value => {
-    document.getElementById(`qty-${value}`).value = "";
-    document.getElementById(`total-${value}`).textContent = "Rp 0";
-  });
+    </div>
+  </section>
 
-  document.getElementById("totalKasir").textContent = "Rp 0";
-  document.getElementById("grandTotal").textContent = "Rp 0";
-}
-</script>
+  <section class="cta" id="order">
+    <h2>Siap Push Rank?</h2>
+
+    <p>
+      Hubungi admin sekarang untuk melakukan pemesanan.
+    </p>
+
+    <a
+      href="https://wa.me/6281234567890?text=Halo%20Admin%2C%20saya%20ingin%20order%20joki%20ML"
+      target="_blank"
+      class="btn">
+      💬 Hubungi WhatsApp
+    </a>
+  </section>
+
+  <footer>
+    © 2026 Joki ML. All Rights Reserved.
+  </footer>
 
 </body>
 </html>
+
