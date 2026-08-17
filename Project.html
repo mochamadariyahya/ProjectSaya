@@ -233,7 +233,7 @@ footer{border-top:1px solid var(--line);padding:35px 0;color:var(--muted);font-s
 // GANTI dengan nomor WhatsApp admin.
 // Format internasional tanpa tanda +, spasi, atau strip.
 // Contoh Indonesia: 6281234567890
-const ADMIN_WHATSAPP = "6285177187488";
+const ADMIN_WHATSAPP = "6285861085140";
 
 const DATA = {
   "Mobile Legends": {
@@ -329,10 +329,7 @@ document.querySelectorAll(".game-card").forEach(card => {
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  if (!ADMIN_WHATSAPP || ADMIN_WHATSAPP === "6281234567890") {
-    alert("Silakan ganti nomor ADMIN_WHATSAPP di file script.js dengan nomor WhatsApp admin.");
-    return;
-  }
+  
 
   const game = gameEl.value;
   const service = serviceEl.value;
