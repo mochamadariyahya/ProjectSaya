@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jasa joki game cepat, aman, dan terpercaya untuk Mobile Legends, Free Fire, dan PUBG Mobile.">
+  <title>JokiGame — Joki ML, FF & PUBG</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+  --bg:#07080d; --panel:#10121a; --panel2:#151824; --text:#f5f7fb; --muted:#9aa2b2;
+  --line:rgba(255,255,255,.09); --accent:#7c5cff; --accent2:#00e5a0; --danger:#ff4f8b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+.container{width:min(1120px,92%);margin:auto}
+.navbar{position:sticky;top:0;z-index:20;background:rgba(7,8,13,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-inner{height:72px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:900;letter-spacing:-.05em;font-size:21px}.logo span{color:var(--accent)}
+nav{display:flex;gap:25px;margin-left:auto}nav a{color:#cbd0dc;font-size:14px}nav a:hover{color:#fff}
+.nav-wa{padding:10px 16px;border:1px solid var(--line);border-radius:12px;font-size:13px;font-weight:700}
+.hero{min-height:650px;display:flex;align-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 80% 35%,rgba(124,92,255,.18),transparent 35%),radial-gradient(circle at 20% 80%,rgba(0,229,160,.08),transparent 30%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center;padding:80px 0}
+.badge,.eyebrow{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--accent2)}
+.hero h1{font-size:clamp(48px,7vw,82px);line-height:.98;letter-spacing:-.065em;margin:18px 0}.hero h1 span{color:var(--accent)}
+.hero-text{color:var(--muted);max-width:600px;font-size:16px}
+.hero-actions{display:flex;gap:12px;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;border-radius:13px;padding:14px 20px;font-weight:800;font-size:14px;transition:.2s}.btn:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(135deg,var(--accent),#a076ff);color:#fff;box-shadow:0 12px 35px rgba(124,92,255,.2)}.secondary{border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.stats{display:flex;gap:34px;margin-top:42px}.stats div{display:flex;flex-direction:column}.stats strong{font-size:21px}.stats small{font-size:11px;color:var(--muted)}
+.hero-card{height:390px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(145deg,#161a2b,#0d0f16);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.card-glow{position:absolute;width:230px;height:230px;border-radius:50%;background:var(--accent);filter:blur(80px);opacity:.3}.controller{font-size:100px;position:relative;filter:drop-shadow(0 20px 25px rgba(0,0,0,.4))}.hero-card-title{font-size:25px;font-weight:900;position:relative;margin-top:15px}.hero-card-sub{font-size:11px;color:var(--muted);letter-spacing:.2em;position:relative}.mini-pills{display:flex;gap:7px;margin-top:22px;position:relative}.mini-pills span{font-size:10px;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.07);color:#cdd2dd}
+.section{padding:90px 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:34px}.section-heading h2{font-size:38px;line-height:1.1;letter-spacing:-.04em;margin-top:8px}.section-heading>p{max-width:430px;color:var(--muted);font-size:14px}.center{display:block;text-align:center}
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.game-card{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:22px;display:flex;align-items:center;gap:16px;border-radius:18px;text-align:left;cursor:pointer;transition:.2s}.game-card:hover,.game-card.active{border-color:rgba(124,92,255,.65);background:linear-gradient(145deg,#15172a,#10121a);transform:translateY(-3px)}
+.game-icon{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-weight:900;font-size:17px;flex:none}.ml{background:linear-gradient(135deg,#197cff,#7c5cff)}.ff{background:linear-gradient(135deg,#ff7a18,#ff315b)}.pubg{background:linear-gradient(135deg,#f4b000,#d84b00)}
+.game-card h3{font-size:15px}.game-card p{font-size:12px;color:var(--muted)}
+.order-section{background:#0a0b11;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.order-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:start}.order-info h2{font-size:44px;line-height:1.05;letter-spacing:-.05em;margin:12px 0}.order-info>p{color:var(--muted);font-size:14px;max-width:480px}
+.info-list{margin-top:34px;display:grid;gap:18px}.info-list>div{display:flex;gap:15px}.info-list span{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:rgba(124,92,255,.14);color:#a58eff;font-size:11px;font-weight:800}.info-list strong{display:block;font-size:13px}.info-list small{color:var(--muted);font-size:11px}
+.order-form{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 25px 70px rgba(0,0,0,.25)}.form-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.form-top h3{font-size:24px;margin-top:3px}.selected-game{font-size:11px;font-weight:800;color:var(--accent2);background:rgba(0,229,160,.08);padding:8px 10px;border-radius:9px}
+label{display:block;color:#d9dce4;font-size:12px;font-weight:700;margin-bottom:15px}input,select,textarea{width:100%;margin-top:7px;background:#0b0d13;border:1px solid var(--line);border-radius:11px;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus,textarea:focus{border-color:rgba(124,92,255,.75)}textarea{resize:vertical}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.price-box{display:flex;justify-content:space-between;align-items:center;background:rgba(124,92,255,.08);border:1px solid rgba(124,92,255,.2);padding:15px;border-radius:13px;margin:8px 0 15px}.price-box span{font-size:12px;color:var(--muted)}.price-box strong{font-size:22px;color:#b49fff}.full{width:100%}.form-note{font-size:10px;color:#737b8b;text-align:center;margin-top:10px}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.feature{padding:25px;border:1px solid var(--line);background:var(--panel);border-radius:17px}.feature>span{font-size:25px}.feature h3{font-size:14px;margin:13px 0 5px}.feature p{font-size:12px;color:var(--muted)}
+.narrow{max-width:780px}.faq details{border-bottom:1px solid var(--line);padding:20px 0}.faq summary{cursor:pointer;font-weight:700;font-size:14px}.faq details p{color:var(--muted);font-size:13px;margin-top:10px}
+.floating-wa{position:fixed;right:20px;bottom:20px;width:55px;height:55px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:25px;z-index:30;box-shadow:0 10px 30px rgba(37,211,102,.25)}
+footer{border-top:1px solid var(--line);padding:35px 0;color:var(--muted);font-size:11px}.footer-inner{display:flex;justify-content:space-between;align-items:center}.footer-inner p{margin-top:4px}
+@media(max-width:800px){nav{display:none}.nav-inner{gap:12px}.nav-wa{margin-left:auto}.hero-grid,.order-grid{grid-template-columns:1fr}.hero{min-height:auto}.hero-grid{padding:70px 0;gap:45px}.hero-card{height:300px}.game-grid,.feature-grid{grid-template-columns:1fr}.section{padding:65px 0}.section-heading{display:block}.section-heading>p{margin-top:12px}.order-grid{gap:40px}.order-info h2{font-size:38px}}
+@media(max-width:520px){.two-col{grid-template-columns:1fr}.hero h1{font-size:54px}.hero-actions{flex-direction:column}.stats{gap:22px}.order-form{padding:19px}.footer-inner{display:block}.footer-inner>div:last-child{margin-top:20px}}
+
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="#home"><span>JOKI</span>GAME</a>
+      <nav>
+        <a href="#games">Game</a>
+        <a href="#order">Order</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-wa" href="#order">Order Sekarang</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">⚡ FAST SERVICE • 24/7 ORDER</div>
+          <h1>Rank Naik.<br><span>Tanpa Ribet.</span></h1>
+          <p class="hero-text">Jasa joki game untuk Mobile Legends, Free Fire, dan PUBG Mobile. Pilih layanan, isi detail, lalu langsung kirim order ke WhatsApp.</p>
+          <div class="hero-actions">
+            <a href="#order" class="btn primary">🎮 Mulai Order</a>
+            <a href="#games" class="btn secondary">Lihat Game</a>
+          </div>
+          <div class="stats">
+            <div><strong>3+</strong><small>Game</small></div>
+            <div><strong>24/7</strong><small>Order</small></div>
+            <div><strong>⚡</strong><small>Fast Response</small></div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="card-glow"></div>
+          <div class="controller">🎮</div>
+          <div class="hero-card-title">GAME BOOSTING</div>
+          <div class="hero-card-sub">ML • FF • PUBG MOBILE</div>
+          <div class="mini-pills"><span>Secure</span><span>Fast</span><span>Trusted</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="games">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">PILIH GAME</span>
+            <h2>Game yang tersedia</h2>
+          </div>
+          <p>Pilih game favoritmu dan lanjutkan ke form order.</p>
+        </div>
+        <div class="game-grid">
+          <button class="game-card active" data-game="Mobile Legends" type="button">
+            <div class="game-icon ml">ML</div>
+            <div><h3>Mobile Legends</h3><p>Push Rank & Winrate</p></div>
+          </button>
+          <button class="game-card" data-game="Free Fire" type="button">
+            <div class="game-icon ff">FF</div>
+            <div><h3>Free Fire</h3><p>Rank & Leveling</p></div>
+          </button>
+          <button class="game-card" data-game="PUBG Mobile" type="button">
+            <div class="game-icon pubg">P</div>
+            <div><h3>PUBG Mobile</h3><p>Rank & Classic</p></div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section order-section" id="order">
+      <div class="container order-grid">
+        <div class="order-info">
+          <span class="eyebrow">ORDER SEKARANG</span>
+          <h2>Isi detail joki kamu</h2>
+          <p>Setelah form selesai, klik tombol WhatsApp. Pesan akan dibuat otomatis berdasarkan pilihanmu.</p>
+          <div class="info-list">
+            <div><span>01</span><div><strong>Pilih game</strong><small>ML, FF, atau PUBG Mobile.</small></div></div>
+            <div><span>02</span><div><strong>Pilih layanan</strong><small>Jenis layanan dan target menentukan estimasi harga.</small></div></div>
+            <div><span>03</span><div><strong>Kirim ke WhatsApp</strong><small>Admin menerima detail order secara otomatis.</small></div></div>
+          </div>
+        </div>
+
+        <form class="order-form" id="orderForm">
+          <div class="form-top">
+            <div>
+              <span class="eyebrow">FORM ORDER</span>
+              <h3>Detail pesanan</h3>
+            </div>
+            <div class="selected-game" id="selectedGame">Mobile Legends</div>
+          </div>
+
+          <label>Game
+            <select id="game" required>
+              <option>Mobile Legends</option>
+              <option>Free Fire</option>
+              <option>PUBG Mobile</option>
+            </select>
+          </label>
+
+          <label>Layanan
+            <select id="service" required></select>
+          </label>
+
+          <div class="two-col">
+            <label>Rank / Level Sekarang
+              <select id="currentRank" required></select>
+            </label>
+            <label>Target Rank / Level
+              <select id="targetRank" required></select>
+            </label>
+          </div>
+
+          <div class="two-col">
+            <label>ID Game
+              <input id="gameId" type="text" placeholder="Contoh: 123456789" required>
+            </label>
+            <label>Server
+              <input id="server" type="text" placeholder="Contoh: 1234">
+            </label>
+          </div>
+
+          <label>Nama / Nickname
+            <input id="nickname" type="text" placeholder="Nickname game">
+          </label>
+
+          <label>Catatan
+            <textarea id="notes" rows="3" placeholder="Contoh: kerjakan malam hari, jangan ubah setting akun, dll."></textarea>
+          </label>
+
+          <div class="price-box">
+            <span>Estimasi harga</span>
+            <strong id="price">Rp50.000</strong>
+          </div>
+
+          <button class="btn primary full" type="submit">💬 Pesan via WhatsApp</button>
+          <p class="form-note">Harga di atas adalah estimasi. Admin dapat mengonfirmasi harga final melalui WhatsApp.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section features">
+      <div class="container">
+        <div class="section-heading center">
+          <span class="eyebrow">KENAPA KAMI?</span>
+          <h2>Simple, cepat, dan jelas</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature"><span>⚡</span><h3>Fast Response</h3><p>Order langsung masuk ke WhatsApp admin.</p></div>
+          <div class="feature"><span>🔒</span><h3>Privasi</h3><p>Detail akun hanya digunakan untuk proses order.</p></div>
+          <div class="feature"><span>💬</span><h3>Easy Order</h3><p>Tidak perlu checkout rumit. Cukup kirim pesan.</p></div>
+          <div class="feature"><span>🎯</span><h3>Target Jelas</h3><p>Game, layanan, dan target tercantum dalam pesan.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="container narrow">
+        <div class="section-heading center">
+          <span class="eyebrow">FAQ</span>
+          <h2>Pertanyaan umum</h2>
+        </div>
+        <details><summary>Bagaimana cara order?</summary><p>Pilih game, layanan, target, lalu isi ID game. Klik tombol WhatsApp untuk mengirim detail order otomatis ke admin.</p></details>
+        <details><summary>Apakah harga sudah pasti?</summary><p>Harga yang tampil adalah estimasi. Admin akan melakukan konfirmasi harga final berdasarkan detail pesanan.</p></details>
+        <details><summary>Apakah aman?</summary><p>Jangan membagikan data sensitif yang tidak diperlukan. Gunakan metode login yang aman dan ikuti kebijakan game yang berlaku.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <a class="floating-wa" id="floatingWa" href="#" aria-label="WhatsApp">💬</a>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><a class="logo" href="#home"><span>JOKI</span>GAME</a><p>Jasa joki game favoritmu.</p></div>
+      <div>© <span id="year"></span> JokiGame. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+// =============================
+// KONFIGURASI
+// =============================
+// GANTI dengan nomor WhatsApp admin.
+// Format internasional tanpa tanda +, spasi, atau strip.
+// Contoh Indonesia: 6281234567890
+const ADMIN_WHATSAPP = "6281234567890";
+
+const DATA = {
+  "Mobile Legends": {
+    services: ["Push Rank", "Winrate", "Leveling"],
+    ranks: ["Warrior", "Elite", "Master", "Grandmaster", "Epic", "Legend", "Mythic"],
+    prices: {
+      "Push Rank": 15000,
+      "Winrate": 20000,
+      "Leveling": 10000
+    }
+  },
+  "Free Fire": {
+    services: ["Push Rank", "Leveling", "Event / Misi"],
+    ranks: ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Heroic", "Master"],
+    prices: {
+      "Push Rank": 12000,
+      "Leveling": 10000,
+      "Event / Misi": 15000
+    }
+  },
+  "PUBG Mobile": {
+    services: ["Push Rank", "Classic Match", "Leveling"],
+    ranks: ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Crown", "Ace"],
+    prices: {
+      "Push Rank": 18000,
+      "Classic Match": 15000,
+      "Leveling": 10000
+    }
+  }
+};
+
+const gameEl = document.getElementById("game");
+const serviceEl = document.getElementById("service");
+const currentRankEl = document.getElementById("currentRank");
+const targetRankEl = document.getElementById("targetRank");
+const priceEl = document.getElementById("price");
+const selectedGameEl = document.getElementById("selectedGame");
+
+function rupiah(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(value);
+}
+
+function fillSelect(select, items) {
+  select.innerHTML = items.map(item => `<option value="${item}">${item}</option>`).join("");
+}
+
+function updateForm() {
+  const game = gameEl.value;
+  const data = DATA[game];
+
+  fillSelect(serviceEl, data.services);
+  fillSelect(currentRankEl, data.ranks);
+  fillSelect(targetRankEl, data.ranks);
+
+  selectedGameEl.textContent = game;
+  updatePrice();
+}
+
+function updatePrice() {
+  const game = gameEl.value;
+  const service = serviceEl.value;
+  const base = DATA[game].prices[service] || 0;
+
+  const currentIndex = DATA[game].ranks.indexOf(currentRankEl.value);
+  const targetIndex = DATA[game].ranks.indexOf(targetRankEl.value);
+  const distance = Math.max(1, targetIndex - currentIndex + 1);
+
+  // Estimasi sederhana: harga dasar x jumlah tier.
+  const estimated = base * distance;
+  priceEl.textContent = rupiah(estimated);
+}
+
+gameEl.addEventListener("change", updateForm);
+serviceEl.addEventListener("change", updatePrice);
+currentRankEl.addEventListener("change", updatePrice);
+targetRankEl.addEventListener("change", updatePrice);
+
+document.querySelectorAll(".game-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const game = card.dataset.game;
+    gameEl.value = game;
+    document.querySelectorAll(".game-card").forEach(c => c.classList.remove("active"));
+    card.classList.add("active");
+    updateForm();
+    document.getElementById("order").scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  if (!ADMIN_WHATSAPP || ADMIN_WHATSAPP === "6281234567890") {
+    alert("Silakan ganti nomor ADMIN_WHATSAPP di file script.js dengan nomor WhatsApp admin.");
+    return;
+  }
+
+  const game = gameEl.value;
+  const service = serviceEl.value;
+  const currentRank = currentRankEl.value;
+  const targetRank = targetRankEl.value;
+  const gameId = document.getElementById("gameId").value.trim();
+  const server = document.getElementById("server").value.trim();
+  const nickname = document.getElementById("nickname").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+
+  const message = [
+    "Halo Admin, saya ingin order joki.",
+    "",
+    `🎮 Game: ${game}`,
+    `🛠️ Layanan: ${service}`,
+    `📈 Rank/Level sekarang: ${currentRank}`,
+    `🎯 Target: ${targetRank}`,
+    `🆔 ID Game: ${gameId}`,
+    `🌐 Server: ${server || "-"}`,
+    `👤 Nickname: ${nickname || "-"}`,
+    `📝 Catatan: ${notes || "-"}`,
+    "",
+    `💰 Estimasi harga: ${priceEl.textContent}`,
+    "",
+    "Mohon konfirmasi total harga dan prosesnya. Terima kasih."
+  ].join("\n");
+
+  const url = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+});
+
+document.getElementById("floatingWa").addEventListener("click", function(e) {
+  e.preventDefault();
+  if (!ADMIN_WHATSAPP || ADMIN_WHATSAPP === "6281234567890") {
+    document.getElementById("order").scrollIntoView({ behavior: "smooth" });
+    alert("Ganti nomor ADMIN_WHATSAPP di script.js terlebih dahulu.");
+    return;
+  }
+  window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent("Halo Admin, saya ingin bertanya mengenai jasa joki.")}`, "_blank");
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+updateForm();
+
+  </script>
+</body>
+               </html>
